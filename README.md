@@ -1,4 +1,4 @@
-space_missions
-==============
+Seminar Infografik
+==================
 
-Infographic - semester project
+Bitte beschreibung einfügen!
