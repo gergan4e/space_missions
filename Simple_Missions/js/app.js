@@ -27,10 +27,10 @@ var svg = d3.select("body")
     //draw the planets     
 	svg 
 	.selectAll("circle") //do not exist yet
-	.data(planets)
-	.enter() //for each planet do
-	.append("circle")
-	.attr("cx", function(d){
+	.data(planets) // use the data defined in the "planets" array
+	.enter() //for each planet 
+	.append("circle") //create a circle element
+	.attr("cx", function(d){ 
 		'use strict';
 		return d.positionFromSun * 200;
 	})
@@ -48,11 +48,17 @@ var svg = d3.select("body")
 	
 	.on("mouseover", function(){
 		'use strict';
-		d3.select(this).style("fill", 'black');
+		d3.select(this)
+		.style("stroke", 'white')
+		.style("stroke-width", "3");
 	})
 	
 	.on("mouseout", function(){
 		'use strict';
+		d3.select(this)
+		.style("stroke", '')
+		.style("stroke-width", '');
+		
 		/*jslint nomen: true*/
 		var d = this.__data__, 
 		c = d.color;
@@ -62,14 +68,13 @@ var svg = d3.select("body")
 	});
 	
 	
-	//JQUERY
+	//JQuery
 	 $('svg circle').tipsy({ 
         gravity: 'w', 
         html: true, 
         title: function() {
 			'use strict';
 			// hide the ugliness of the framework
-			
 			/*jslint nomen: true*/
 			var d = this.__data__, 
 			c = d.color;
