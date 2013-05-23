@@ -3,29 +3,21 @@
  * Exception: Variables, that will be shown as view. 
  */
 
+/*global console */
+
 //Width and height
 var width = 1400;
 var height = 700;
 
 
-//planets information
-var planets = [
-	//name in words (German), color in colors, radius in kilometers, position relative to sun
-	{name: "Love planet", color: "pink", radius: "12000", positionFromSun: "5"},
-	{name: "Mars", color: "red", radius: "3400", positionFromSun: "4" },
-	{name: "Erde", color: "blue", radius: "6035", positionFromSun: "3" },
-    {name: "Venus", color: "orange", radius: "6050", positionFromSun: "2"},
-    {name: "Merkur", color: "grey", radius: "2440", positionFromSun: "1"}
-];
-
 //Create SVG element
-var svg = d3.select("body")
+var svgContainer = d3.select("body")
             .append("svg")
             .attr("width", width)
             .attr("height", height);
     
-    //draw the planets     
-	svg 
+//draw the planets and add events (planets only)
+svgContainer 
 	.selectAll("circle") //do not exist yet
 	.data(planets) // use the data defined in the "planets" array
 	.enter() //for each planet 
@@ -49,8 +41,8 @@ var svg = d3.select("body")
 	.on("mouseover", function(){
 		'use strict';
 		d3.select(this)
-		.style("stroke", 'white')
-		.style("stroke-width", "3");
+		.style("stroke", 'silver')
+		.style("stroke-width", "2");
 	})
 	
 	.on("mouseout", function(){
@@ -66,22 +58,38 @@ var svg = d3.select("body")
 	
 		d3.select(this).style("fill", c);
 	});
+
+//It is a workaround, not in the spirit of .d3, but anyway...
+// loop over all missions (look at data.js) and draw the path 
+// for each mission.
+var obj;
+for(obj in spaceMissions){
+	// hasOwnProperty is a routine check. Ignore it!
+	if(spaceMissions.hasOwnProperty(obj)){
+		// the addPath function is an utility function 
+		// => appUtil.js
+		addPath(spaceMissions[obj].path);
+	}
+}
+
+
+//FB style pop-up
+$('svg circle').tipsy({
+	gravity : 'w',
+	html : true,
+	title : function() {'use strict';
+		// hide the ugliness of the framework
+		/*jslint nomen: true*/
+		var d = this.__data__, color = d.color, planetName = d.name;
+		/*jslint nomen: false*/
+		return '<span style="color:' + color + '">' + planetName + '</span>';
+	}
+}); 
+
+
+
+    
+
 	
-	
-	//JQuery
-	 $('svg circle').tipsy({ 
-        gravity: 'w', 
-        html: true, 
-        title: function() {
-			'use strict';
-			// hide the ugliness of the framework
-			/*jslint nomen: true*/
-			var d = this.__data__, 
-			c = d.color;
-			/*jslint nomen: false*/
-	
-			return 'My color was <span style="color:' + c + '">' + c + '</span>'; 
-        }
-      });
 	
 	
