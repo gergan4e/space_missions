@@ -14,7 +14,7 @@ var line = d3.svg.line()
 		return d.y; 
     })
     .interpolate("basis");
-
+//TODO: add the spaceMission attributes with loop
 function addPath(spaceMission){
 	'use strict';
 	svgContainer
@@ -24,8 +24,8 @@ function addPath(spaceMission){
 	.attr("country", spaceMission.country)
 	.attr("duration", spaceMission.duration)
 	.attr("year", spaceMission.year)
-	.attr("stroke", "silver")
-	.attr("stroke-width", 1)
+	//.attr("stroke", "silver")
+	//.attr("stroke-width", 1)
 	.attr("fill", "none");
 }
 
@@ -88,7 +88,8 @@ svgContainer.
     .attr("x", x)
     .attr("y", y)
     .attr("width", 96)
-    .attr("height", 50);
+    .attr("height", 50)
+    .attr("country", countryWithCapitalLetters);
 }
 
 

@@ -26,6 +26,7 @@ var planets = [
 
 
 //TODO: duration is ambiguous and EU is not a country
+// NB Capital letters!
 var spaceMissions = [
 {
 	path : createRandomPath(600, 200, 400, 400),
@@ -56,7 +57,7 @@ var spaceMissions = [
 	name : "Shenzhou 5",
 	year : 2003,
 	duration : "21:23 h.",
-	country : "China"
+	country : "CHINA"
 }, {
 	path : createRandomPath(600, 200, 400, 220), 
 	name : "Opportunity",

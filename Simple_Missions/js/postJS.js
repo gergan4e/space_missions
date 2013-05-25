@@ -27,4 +27,5 @@ $(document).ready(function() {'use strict';
 
 	createHover('circle');
 	createHover('path');
+	createHover('image');
 });

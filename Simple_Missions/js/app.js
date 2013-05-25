@@ -116,8 +116,9 @@ svgContainer.selectAll("path")
 .attr("data-html", "true")
 .attr("title", function(){
 	'use strict';
-	var htmlOutput = "<h6>Mein Name ist " + this.getAttribute("name") + "." +
-	" Ich habe "  + this.getAttribute("duration") + " gedauert.</h6>";
+	var htmlOutput = "<h6>Hallo! Mein Name ist " + this.getAttribute("name") + "." +
+	" Ich habe "  + this.getAttribute("duration") + " gedauert. Ich komme aus " + 
+	 this.getAttribute("country") + "!</h6>";
 	return htmlOutput;
 });
 
@@ -127,9 +128,31 @@ appendImage("CHINA", 1150, 100);
 appendImage("USA", 1250, 100);
 
 
+svgContainer
+.selectAll("image")
+.attr("rel","tooltip")
+.attr("data-html", "true")
+.attr("title", function(){
+	'use strict';
+	var htmlOutput = "<h6>Click me, baby!</h6>";
+	return htmlOutput;
+})
+
+.on("click", function(){
+	'use strict';
+	//first this => image
+	var flagCountry = this.getAttribute("country");
+	d3.selectAll("path")
+	.filter(function(d){
+		//second this is a level deeper 
+		//=> path! Look at .selectAll
+		console.log(this);
+		return this.getAttribute("country") === flagCountry;
+	})
+	.attr("stroke", "silver")
+	.attr("stroke-width", 1);
+});
 
 
-
-	
 	
 	
