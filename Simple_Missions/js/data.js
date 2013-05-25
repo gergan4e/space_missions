@@ -14,7 +14,7 @@ var planets = [
 	positionFromSun : 3
 }, {
 	name : "Venus",
-	color : "orange",
+	color : "purple",
 	radius : 6050,
 	positionFromSun : 2
 }, {
@@ -70,5 +70,11 @@ var spaceMissions = [
 	duration : "8 Jahre",
 	country : "USA"
 }];
+
+
+
+
+
+
 
 

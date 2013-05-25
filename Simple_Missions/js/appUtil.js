@@ -19,6 +19,7 @@ function addPath(lineData){
 	'use strict';
 	svgContainer
 	.append("path")
+	.attr("country", "EU")
 	.attr("d", line(lineData))
 	.attr("stroke", "silver")
 	.attr("stroke-width", 1)
