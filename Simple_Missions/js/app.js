@@ -44,6 +44,7 @@ svgContainer
 .attr("data-html", "true")
 .attr("data-original-title", function(d){
 	'use strict';
+	
 	var htmlText = '<div style = "color:' + d.color + '"><h6>' +
 					'Mein Name ist ' + d.name + '</h6>';
 	return htmlText;
@@ -74,14 +75,14 @@ svgContainer
 
 //It is a workaround, not in the spirit of .d3, but anyway...
 // loop over all missions (look at data.js) and draw the path 
-// for each mission.
+// for each mission and add the mission specific information. 
 var obj;
 for(obj in spaceMissions){
 	// hasOwnProperty is a routine check. Ignore it!
 	if(spaceMissions.hasOwnProperty(obj)){
 		// the addPath function is an utility function 
 		// => appUtil.js
-		addPath(spaceMissions[obj].path);
+		addPath(spaceMissions[obj]);
 	}
 }
 
@@ -115,10 +116,15 @@ svgContainer.selectAll("path")
 .attr("data-html", "true")
 .attr("title", function(){
 	'use strict';
-	return this.getAttribute("country");
+	var htmlOutput = "<h6>Mein Name ist " + this.getAttribute("name") + "." +
+	" Ich habe "  + this.getAttribute("duration") + " gedauert.</h6>";
+	return htmlOutput;
 });
 
-
+appendImage("EU", 950, 100);
+appendImage("USSR", 1050, 100);
+appendImage("CHINA", 1150, 100);
+appendImage("USA", 1250, 100);
 
 
 

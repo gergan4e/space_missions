@@ -15,12 +15,15 @@ var line = d3.svg.line()
     })
     .interpolate("basis");
 
-function addPath(lineData){
+function addPath(spaceMission){
 	'use strict';
 	svgContainer
 	.append("path")
-	.attr("country", "EU")
-	.attr("d", line(lineData))
+	.attr("d", line(spaceMission.path))
+	.attr("name", spaceMission.name)
+	.attr("country", spaceMission.country)
+	.attr("duration", spaceMission.duration)
+	.attr("year", spaceMission.year)
 	.attr("stroke", "silver")
 	.attr("stroke-width", 1)
 	.attr("fill", "none");
@@ -76,7 +79,17 @@ function createRandomPath(startXcoordinate, startYcoordinate, endXcoordinate, en
 	return path;
 }
 
-
+//Capital letters are very important. Accept it as a naming convention!
+function appendImage(countryWithCapitalLetters, x, y){
+'use strict';
+svgContainer.
+	append("image")
+    .attr("xlink:href", "img/flags/" + countryWithCapitalLetters + "_FLAG.png")
+    .attr("x", x)
+    .attr("y", y)
+    .attr("width", 96)
+    .attr("height", 50);
+}
 
 
 
