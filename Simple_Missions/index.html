@@ -7,33 +7,42 @@
 		<!--Frameworks-->
 		<script type="text/javascript" src="js/d3/d3.v3.js"></script>
 		<link href="bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+		<link href="css/iThing.css" rel="stylesheet" media="screen">
+
 		<!--Application files-->
 		<link rel="stylesheet" type="text/css" href="css/app.css">
 
+		<script type="text/javascript" src="js/jquery/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery-ui-1.10.3.custom.min.js"></script>
+		<script type="text/javascript" src="js/jquery/jQDateRangeSlider-min.js"></script>
 	</head>
 
 	<body>
-			
-		<div id="spaceMissionSearch">			
-				<input id="sms"name="spaceMissionSearch" type="text"
-			   placeholder="Name eingeben" class="input-xlarge search-query" class="span3" style="margin: 0 auto;" data-provide="typeahead" data-items="4">	
-			   
-			  </div>			
-				
-				<!--The bootstrapping order is very important!-->
-				<script type="text/javascript" src="js/appUtil.js"></script>
-				<script type="text/javascript" src="js/data.js"></script>
-				<script type="text/javascript" src="js/app.js"></script>
 
-			
-			
-		
-			
-			
-			<script type="text/javascript" src="js/jquery/jquery-1.9.1.min.js"></script>
-			<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-			<script type="text/javascript" src="bootstrap/js/bootstrap-tooltip.js"></script>
-			<script type="text/javascript" src="bootstrap/js/bootstrap-typeahead.js"></script>
-	<script type="text/javascript" src="js/postJS.js"></script>	
+		<div class= "row">
+			<div class="span4">
+				<div id="spaceMissionSearch">
+					<input id="sms"name="spaceMissionSearch" type="text"
+					placeholder="Name eingeben" class="input-xlarge search-query" class="span3" style="margin: 0 auto;" data-provide="typeahead" data-items="4">
+
+				</div>
+			</div>
+			<div class="span8">
+				<div id="datePicker">
+					<div id="slider"> </div>
+				</div>
+			</div>
+
+		</div>
+
+		<!--The bootstrapping order is very important!-->
+		<script type="text/javascript" src="js/appUtil.js"></script>
+		<script type="text/javascript" src="js/data.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+
+		<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="bootstrap/js/bootstrap-tooltip.js"></script>
+		<script type="text/javascript" src="bootstrap/js/bootstrap-typeahead.js"></script>
+		<script type="text/javascript" src="js/postJS.js"></script>
 	</body>
 </html>
