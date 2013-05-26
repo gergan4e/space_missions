@@ -3,7 +3,7 @@
  * Exception: Variables, that will be shown as view. 
  */
 
-/*global console */
+/*global console, $ */
 
 //Width and height
 var width = 1400;
@@ -93,6 +93,8 @@ for(obj in spaceMissions){
  *  are the default values! See appUtil.js addPath()
  * 
  */
+
+//TODO: Write hide function
 svgContainer.selectAll("path")
 
 .on("mouseover", function(){
@@ -122,10 +124,12 @@ svgContainer.selectAll("path")
 	return htmlOutput;
 });
 
-appendImage("EU", 950, 100);
-appendImage("USSR", 1050, 100);
-appendImage("CHINA", 1150, 100);
-appendImage("USA", 1250, 100);
+//Images
+
+appendImage("EU", 900, 0);
+appendImage("USSR", 1000, 0);
+appendImage("CHINA", 1100, 0);
+appendImage("USA", 1200, 0);
 
 
 svgContainer
@@ -137,22 +141,82 @@ svgContainer
 	var htmlOutput = "<h6>Click me, baby!</h6>";
 	return htmlOutput;
 })
-
 .on("click", function(){
 	'use strict';
 	//first this => image
-	var flagCountry = this.getAttribute("country");
-	d3.selectAll("path")
-	.filter(function(d){
+	var flagCountry;
+	console.log(this.getAttribute("clicked"));
+	
+	if(this.getAttribute("clicked") === 'false' || 
+		this.getAttribute("clicked") === null){
+		// On
+		flagCountry = this.getAttribute("country");
+		d3.selectAll("path")
+		.filter(function(d){
 		//second this is a level deeper 
 		//=> path! Look at .selectAll
-		console.log(this);
 		return this.getAttribute("country") === flagCountry;
+		})
+		.attr("stroke", "silver")
+		.attr("stroke-width", 1);
+		this.setAttribute("clicked", true);
+	} else {
+		//Off
+		flagCountry = this.getAttribute("country");
+		d3.selectAll("path")
+		.filter(function(d){
+		//second this is a level deeper 
+		//=> path! Look at .selectAll
+		return this.getAttribute("country") === flagCountry;
+		})
+		.attr("stroke", 'silver')
+		.attr("stroke-width", 0);
+		this.setAttribute("clicked", false);
+		
+	}
+});
+
+d3.select('body')
+  .select('input')
+  .attr("data-source", function(){
+		'use strict';
+		//open string
+		var outputString = '[',
+			obj;
+	for(obj in spaceMissions){
+		if(spaceMissions.hasOwnProperty(obj)){
+		outputString = outputString + '\"' + spaceMissions[obj].name 
+		+ '\",';	
+		}
+	}
+	//without the last comma
+	outputString = outputString.substring(0, outputString.length-1);
+	
+	outputString = outputString + ']';
+	return outputString;
+  })
+  .on("blur", function(){
+	'use strict';
+	var value = $('input[id=sms]').val();
+		d3.selectAll("path")
+	.filter(function(d){
+		return this.getAttribute("name") === value;
 	})
 	.attr("stroke", "silver")
 	.attr("stroke-width", 1);
+})
+  .on("keypress", function(){
+	'use strict';
+	//on enter TODO: use single function for blur and enter
+	if(d3.event.keyCode===13){
+			var value = $('input[id=sms]').val();
+		d3.selectAll("path")
+	.filter(function(d){
+		return this.getAttribute("name") === value;
+	})
+	.attr("stroke", "silver")
+	.attr("stroke-width", 1);
+	}
 });
-
-
 	
 	
