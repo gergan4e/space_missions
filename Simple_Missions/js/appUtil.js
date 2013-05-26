@@ -1,4 +1,4 @@
-/*global svgContainer, console */
+/*global svgContainer, console, $ */
 
 // you can define different line interpolations
 //  "linear", "step-before", "step-after", "basis",
@@ -14,6 +14,8 @@ var line = d3.svg.line()
 		return d.y; 
     })
     .interpolate("basis");
+    
+
 //TODO: add the spaceMission attributes with loop
 function addPath(spaceMission){
 	'use strict';
@@ -94,11 +96,41 @@ svgContainer.
 
 
 
-
-
-
-
-
+function getSelectedPath(){
+	'use strict';
+	//Time-line and flag
+	
+	//initialize an empty object with the desired filter Attributes
+	var selected = {
+		countries : '',
+		minDate : '',
+		maxDate : ''
+	},
+	
+	//flags
+	allImages = svgContainer.selectAll("image")[0],
+	
+	
+	arrayCountries = [],
+	
+	obj;
+	
+	for(obj in allImages){
+		if(allImages.hasOwnProperty(obj)){
+			if(allImages[obj].getAttribute("clicked")==='true'){
+				arrayCountries.push(allImages[obj].getAttribute("country"));
+			}
+		}
+	}
+	
+	 selected.countries = arrayCountries;
+	 
+	 selected.minDate = $("#slider").dateRangeSlider("values").min.getFullYear();
+	 selected.maxDate = $("#slider").dateRangeSlider("values").max.getFullYear();
+	 
+	 console.log(selected);
+	 return selected;
+}
 
 
 

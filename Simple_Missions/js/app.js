@@ -138,7 +138,7 @@ svgContainer
 .attr("data-html", "true")
 .attr("title", function(){
 	'use strict';
-	var htmlOutput = "<h6>Click me, baby!</h6>";
+	var htmlOutput = "<h6>Click me!</h6>";
 	return htmlOutput;
 })
 .on("click", function(){
@@ -146,7 +146,6 @@ svgContainer
 	//first this => image
 	var flagCountry;
 	console.log(this.getAttribute("clicked"));
-	
 	if(this.getAttribute("clicked") === 'false' || 
 		this.getAttribute("clicked") === null){
 		// On
@@ -174,6 +173,8 @@ svgContainer
 		this.setAttribute("clicked", false);
 		
 	}
+	//TODO: 
+	getSelectedPath();
 });
 
 d3.select('body')
@@ -198,7 +199,7 @@ d3.select('body')
   .on("blur", function(){
 	'use strict';
 	var value = $('input[id=sms]').val();
-		d3.selectAll("path")
+	d3.selectAll("path")
 	.filter(function(d){
 		return this.getAttribute("name") === value;
 	})
@@ -218,5 +219,4 @@ d3.select('body')
 	.attr("stroke-width", 1);
 	}
 });
-	
-	
+
