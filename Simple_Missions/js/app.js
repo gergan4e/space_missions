@@ -145,7 +145,6 @@ svgContainer
 	'use strict';
 	//first this => image
 	var flagCountry;
-	console.log(this.getAttribute("clicked"));
 	if(this.getAttribute("clicked") === 'false' || 
 		this.getAttribute("clicked") === null){
 		// On
@@ -155,9 +154,8 @@ svgContainer
 		//second this is a level deeper 
 		//=> path! Look at .selectAll
 		return this.getAttribute("country") === flagCountry;
-		})
-		.attr("stroke", "silver")
-		.attr("stroke-width", 1);
+		});
+
 		this.setAttribute("clicked", true);
 	} else {
 		//Off
@@ -167,14 +165,13 @@ svgContainer
 		//second this is a level deeper 
 		//=> path! Look at .selectAll
 		return this.getAttribute("country") === flagCountry;
-		})
-		.attr("stroke", 'silver')
-		.attr("stroke-width", 0);
+		});
+
 		this.setAttribute("clicked", false);
 		
 	}
-	//TODO: 
 	getSelectedPath();
+	drawSpecificPaths();
 });
 
 d3.select('body')
@@ -198,25 +195,13 @@ d3.select('body')
   })
   .on("blur", function(){
 	'use strict';
-	var value = $('input[id=sms]').val();
-	d3.selectAll("path")
-	.filter(function(d){
-		return this.getAttribute("name") === value;
-	})
-	.attr("stroke", "silver")
-	.attr("stroke-width", 1);
+
 })
   .on("keypress", function(){
 	'use strict';
 	//on enter TODO: use single function for blur and enter
 	if(d3.event.keyCode===13){
-			var value = $('input[id=sms]').val();
-		d3.selectAll("path")
-	.filter(function(d){
-		return this.getAttribute("name") === value;
-	})
-	.attr("stroke", "silver")
-	.attr("stroke-width", 1);
+
 	}
 });
 

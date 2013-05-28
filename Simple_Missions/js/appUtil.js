@@ -1,4 +1,4 @@
-/*global svgContainer, console, $ */
+/*global svgContainer, console, $, spaceMissions*/
 
 // you can define different line interpolations
 //  "linear", "step-before", "step-after", "basis",
@@ -26,8 +26,8 @@ function addPath(spaceMission){
 	.attr("country", spaceMission.country)
 	.attr("duration", spaceMission.duration)
 	.attr("year", spaceMission.year)
-	//.attr("stroke", "silver")
-	//.attr("stroke-width", 1)
+	.attr("stroke", "silver")
+	.attr("stroke-width", 1)
 	.attr("fill", "none");
 }
 
@@ -128,9 +128,51 @@ function getSelectedPath(){
 	 selected.minDate = $("#slider").dateRangeSlider("values").min.getFullYear();
 	 selected.maxDate = $("#slider").dateRangeSlider("values").max.getFullYear();
 	 
-	 console.log(selected);
+	 console.log(selected.countries);
 	 return selected;
 }
+
+
+function drawSpecificPaths(){
+	'use strict';
+	// delete all of the paths
+	svgContainer
+		.selectAll('path')
+		.remove();
+	
+var obj;
+for(obj in spaceMissions){
+	// hasOwnProperty is a routine check. Ignore it!
+	if(spaceMissions.hasOwnProperty(obj)){
+		console.log(spaceMissions[obj]);
+		addPath(spaceMissions[obj]);
+	}
+}
+		
+	
+		
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
