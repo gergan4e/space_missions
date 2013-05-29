@@ -1,5 +1,4 @@
-/*global $, console, d3 */
-
+/*global $, console, d3, drawSpecificPaths */
 function changeTooltipColorTo(color) {'use strict';
 	$('.tooltip-inner').css('background-color', color);
 	$('.tooltip.top .tooltip-arrow').css('border-top-color', color);
@@ -16,18 +15,6 @@ function createHover(attribute) {'use strict';
 	});
 
 }
-
-
-$(document).ready(function() {'use strict';
-	$("[rel=tooltip]").tooltip({
-		'container' : 'body',
-		'placement' : 'top'
-	});
-
-	createHover('circle');
-	createHover('path');
-	createHover('image');
-});
 
 $("#slider").dateRangeSlider({
 	bounds : {
@@ -50,24 +37,16 @@ $("#slider").dateRangeSlider({
 
 $("#slider").bind("valuesChanged", function(e, data){
 	'use strict';
-  console.log("Values just changed. min: " + data.values.min.getFullYear() + " max: " + data.values.max.getFullYear());
-  
-  d3.selectAll("path")
-	.attr("stroke", "silver")
-	.attr("stroke-width", 0);
-  d3.selectAll("path")
-	.filter(function(){
-		var inRange, 
-			pathYear = this.getAttribute("year");
-		if(pathYear >= data.values.min.getFullYear() && pathYear <= data.values.max.getFullYear()){
-			console.log(this);
-			inRange = true;
-		} else {
-			inRange = false;
-		}
-		return inRange;
-	})
-	.attr("stroke", "silver")
-	.attr("stroke-width", 1);
-	
+	drawSpecificPaths(false);	
+});
+
+$(document).ready(function() {'use strict';
+	$("[rel=tooltip]").tooltip({
+		'container' : 'body',
+		'placement' : 'top'
+	});
+
+	createHover('circle');
+	createHover('path');
+	createHover('image');
 });

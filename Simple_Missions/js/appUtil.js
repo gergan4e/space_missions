@@ -1,4 +1,4 @@
-/*global svgContainer, console, $, spaceMissions*/
+/*global svgContainer, console, $, spaceMissions, createHover*/
 
 // you can define different line interpolations
 //  "linear", "step-before", "step-after", "basis",
@@ -84,6 +84,10 @@ function createRandomPath(startXcoordinate, startYcoordinate, endXcoordinate, en
 //Capital letters are very important. Accept it as a naming convention!
 function appendImage(countryWithCapitalLetters, x, y){
 'use strict';
+
+
+
+
 svgContainer.
 	append("image")
     .attr("xlink:href", "img/flags/" + countryWithCapitalLetters + "_FLAG.png")
@@ -91,7 +95,9 @@ svgContainer.
     .attr("y", y)
     .attr("width", 96)
     .attr("height", 50)
-    .attr("country", countryWithCapitalLetters);
+    .attr("country", countryWithCapitalLetters)
+    .transition()
+	.style("opacity", 0.3);
 }
 
 
@@ -133,6 +139,19 @@ function getSelectedPath(){
 }
 
 
+
+
+function isToBeAdded(obj, selected) {'use strict';
+
+	if ($.inArray(spaceMissions[obj].country, selected.countries) !== -1 && 
+	spaceMissions[obj].year >= selected.minDate && spaceMissions[obj].year <= selected.maxDate) {
+		return true;
+
+	}
+}
+
+
+
 function drawSpecificPaths(){
 	'use strict';
 	// delete all of the paths
@@ -140,25 +159,57 @@ function drawSpecificPaths(){
 		.selectAll('path')
 		.remove();
 	
-var obj;
+
+var selected = getSelectedPath(),
+	obj;
 for(obj in spaceMissions){
 	// hasOwnProperty is a routine check. Ignore it!
-	if(spaceMissions.hasOwnProperty(obj)){
-		console.log(spaceMissions[obj]);
+	if(spaceMissions.hasOwnProperty(obj) 
+		&& isToBeAdded(obj, selected) && 
+		($('#sms').val() === spaceMissions[obj].name || $('#sms').val() === '')){
 		addPath(spaceMissions[obj]);
 	}
 }
-		
+
+
+
+
+
+//TODO: Write hide function
+svgContainer.selectAll("path")
+
+.on("mouseover", function(){
+		d3.select(this)
+		.style("stroke", 'white')
+		.style("stroke-width", "3");
+})
+
+.on("mouseout", function(){	
+		//default values
+		d3.select(this)
+		.style("stroke", 'silver')
+		.style("stroke-width", "1");
 	
+})
+
+//set _tooltip options
+.attr("rel","tooltip")
+.attr("data-html", "true")
+.attr("title", function(){
+	var htmlOutput = "<h6>Hallo! Mein Name ist " + this.getAttribute("name") + "." +
+	" Ich habe "  + this.getAttribute("duration") + " gedauert. Ich komme aus " + 
+	 this.getAttribute("country") + "!</h6>";
+	return htmlOutput;
+});
+
+$("[rel=tooltip]").tooltip({
+		'container' : 'body',
+		'placement' : 'top'
+	});
+
+createHover('path');
 		
 }
-
-
-
-
-
-
-
 
 
 
