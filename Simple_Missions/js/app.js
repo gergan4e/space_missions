@@ -57,7 +57,10 @@ appendImage("USA", 1200, 0);
 svgContainer.selectAll("image").attr("rel", "tooltip").attr("data-html", "true").attr("title", function() {'use strict';
 	var htmlOutput = "<h6>Click me!</h6>";
 	return htmlOutput;
-}).on("click", function() {'use strict';
+})
+
+
+.on("click", function() {'use strict';
 	//first this => image
 	var flagCountry;
 	if (this.getAttribute("clicked") === 'false' || this.getAttribute("clicked") === null) {

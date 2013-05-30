@@ -11,13 +11,13 @@
  * Application initialization
  */
 
-/*global $*/
+/*global $, console*/
 
 // define application width (SVG)
 IG.width = 1400;
 
 // define application height (SVG)
-IG.height = 700;
+IG.height = 400;
 
 // define a SVG container
 IG.svgContainer = d3.select('body')
@@ -64,10 +64,48 @@ IG.svgContainer.selectAll('circle')
 /**
  * FLAGS 
  */
-
 IG.flags = {
-	
+	appendFlag : function(countryWithCapitalLetters, x, y){
+		'use strict';
+		IG.svgContainer
+		.append('svg:image')
+		.attr('xlink:href', 
+		'img/flags/' + countryWithCapitalLetters + '_FLAG.png')
+		.attr('x', x)
+		.attr('y', y)
+		.attr('width', 96)
+		.attr('height', 50)
+		.attr('country', countryWithCapitalLetters)
+		.attr('clicked', false)
+		.attr('rel', 'tooltip')
+		.attr('data-html', true)
+		.attr('title', 
+			function() {
+				var htmlOutput = "<h6>Click me!</h6>";
+				return htmlOutput;
+			}
+		)
+		
+		.on('click', function(){
+			if(this.getAttribute('clicked') === 'false') {
+				this.setAttribute('clicked', true);
+			} else {
+				this.setAttribute('clicked', false);
+			}
+		});
+		
+	}
+
 };
+
+IG.flags.appendFlag('EU', 900, 0);
+IG.flags.appendFlag('USSR', 1000, 0);
+IG.flags.appendFlag('CHINA', 1100, 0);
+IG.flags.appendFlag('USA', 1200, 0);
+
+/**
+ * Input 
+ */
 
 
 
@@ -75,26 +113,91 @@ IG.flags = {
  * Utility functions 
  */
 
-IG.util = {
-	
-	changeTooltipColorTo : 
-	function(color) {'use strict';
-		$('.tooltip-inner').css('background-color', color);
-		$('.tooltip.top .tooltip-arrow').css('border-top-color', color);
-		$('.tooltip.right .tooltip-arrow').css('border-right-color', color);
-		$('.tooltip.left .tooltip-arrow').css('border-left-color', color);
-		$('.tooltip.bottom .tooltip-arrow').css('border-bottom-color', color);
-	},
 
-	createHover : function(attribute){
-		'use strict';
-		$(attribute).hover(function() {
+IG.util.changeTooltipColorTo = function(color) {'use strict';
+	$('.tooltip-inner').css('background-color', color);
+	$('.tooltip.top .tooltip-arrow').css('border-top-color', color);
+	$('.tooltip.right .tooltip-arrow').css('border-right-color', color);
+	$('.tooltip.left .tooltip-arrow').css('border-left-color', color);
+	$('.tooltip.bottom .tooltip-arrow').css('border-bottom-color', color);
+};
+
+IG.util.createHover = function(attribute) {'use strict';
+	$(attribute).hover(function() {
 		//change font color
 		$('.tooltip-inner').css('color', 'black');
 		IG.util.changeTooltipColorTo('silver');
 	});
-	}
 };
+
+IG.util.getCurrentView = function() {'use strict';
+	var currentState = {
+		name : '',
+		countries : [],
+		minDate : '',
+		maxDate : ''
+	}, allImages, arrayCountries = [], obj;
+
+	// name determination
+	currentState.name = $('#ssmInput').val();
+
+	//countries
+
+	//flags determination
+	allImages = IG.svgContainer.selectAll('image')[0];
+	for (obj in allImages) {
+		if (allImages.hasOwnProperty(obj)) {
+			if (allImages[obj].getAttribute('clicked') === 'true') {
+				arrayCountries.push(allImages[obj].getAttribute('country'));
+			}
+		}
+	}
+
+	currentState.countries = arrayCountries;
+
+	// get the date of the _timeline
+	currentState.minDate = $("#slider").dateRangeSlider("values").min.getFullYear();
+	currentState.maxDate = $("#slider").dateRangeSlider("values").max.getFullYear();
+
+	return currentState;
+};
+
+IG.util.drawPaths = function(currentState) {
+	'use strict';
+
+	// you can define different line interpolations
+	//  "linear", "step-before", "step-after", "basis",
+	// "basis-closed", "cardinal", "cardinal-closed" ...
+	// See http://www.dashingd3js.com/svg-paths-and-d3js
+	var line = d3.svg.line()
+	.x(function(d) {
+		return d.x;
+	})
+	.y(function(d) {
+		return d.y;
+	}).interpolate('basis'), selected, obj;
+
+
+	function addPath(spaceMission) {
+		IG.svgContainer
+		.append('path')
+		.attr('d', line(spaceMission.path))
+		.attr('name', spaceMission.name)
+		.attr('country', spaceMission.country)
+		.attr('duration', spaceMission.duration)
+		.attr('year', spaceMission.year)
+		.attr('stroke', 'silver')
+		.attr('stroke-width', 1)
+		.attr('fill', 'none');
+	}
+	
+	for (obj in IG.data.missions) {
+		if (IG.data.missions.hasOwnProperty(obj)) {
+			addPath(IG.data.missions[obj]);
+		}
+	}	
+}; 
+
 
 /**
  * Post _scriptum
@@ -109,6 +212,28 @@ $(document).ready(function() {
 	});
 
 	IG.util.createHover('circle');
-}); 
+	IG.util.createHover('image');
+});
+
+//Initialize slider
+
+$("#slider").dateRangeSlider({
+	bounds : {
+		min : new Date(1912, 0, 1),
+		max : new Date(2052, 11, 31)
+	},
+	defaultValues : {
+		min : new Date(1960, 1, 10),
+		max : new Date(2012, 4, 22)
+
+	},
+
+	formatter : function(val) {
+		'use strict';
+		//JS initial month = 0...
+		var year = val.getFullYear();
+		return year;
+	}
+});
 
 
