@@ -84,10 +84,6 @@ function createRandomPath(startXcoordinate, startYcoordinate, endXcoordinate, en
 //Capital letters are very important. Accept it as a naming convention!
 function appendImage(countryWithCapitalLetters, x, y){
 'use strict';
-
-
-
-
 svgContainer.
 	append("image")
     .attr("xlink:href", "img/flags/" + countryWithCapitalLetters + "_FLAG.png")
