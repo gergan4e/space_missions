@@ -30,12 +30,46 @@
 		
 		<div class = "row marLeft">
 			<div class = "span1 offset11">
-				<input id = "ssmInput" type="text" placeholder="Name eingeben" class="input-xlarge search-query span3" style="margin: 0 auto;">
+				<input id = "ssmInput" type="text" placeholder="Name eingeben" 
+				class="input-xlarge search-query span3" style="margin: 0 auto;" 
+				data-provide="typeahead" data-items="2">
 			</div>
 		</div>
+		
+		<script>
+			/**
+			 * Input
+			 */
+			d3.select('body').select('input')
+			// Automatic suggestion
+			.attr('data-source', function() {'use strict';
+				//open string
+				var outputString = '[', obj;
+				for (obj in IG.data.missions) {
+					if (IG.data.missions.hasOwnProperty(obj)) {
+						outputString = outputString + '\"' + IG.data.missions[obj].name + '\",';
+					}
+				}
+				//without the last comma
+				outputString = outputString.substring(0, outputString.length - 1);
+
+				outputString = outputString + ']';
+				return outputString;
+
+			}).on('blur', function() {'use strict';
+				IG.util.drawPaths(IG.util.getCurrentView());
+			}).on('keypress', function() {'use strict';
+				//on enter TODO: use single function for blur and enter
+				if (d3.event.keyCode === 13) {
+					IG.util.drawPaths(IG.util.getCurrentView());
+				}
+			});
+
+		</script>
 		
 		
 		<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="bootstrap/js/bootstrap-tooltip.js"></script>
+		<script type="text/javascript" src="bootstrap/js/bootstrap-typeahead.js"></script>
 	</body>
 </html>

@@ -92,43 +92,43 @@ IG.data = {
 	
 	missions : [
 	{
-		path : IG.util.createRandomPath(600, 200, 400, 400),
+		path : IG.util.createRandomPath(600, 150, 400, 400),
 		name : "Wostok",
 		year : 1961,
 		duration : "1:48 h.",
 		country : "USSR"
 	}, {
-		path : IG.util.createRandomPath(600, 200, 200, 200),
+		path : IG.util.createRandomPath(600, 150, 200, 200),
 		name : "Mercury-Atlas 6",
 		year : 1962,
 		duration : "4:55 h.",
 		country : "USA"
 	}, {
-		path : IG.util.createRandomPath(600, 200, 800, 200),
+		path : IG.util.createRandomPath(600, 150, 800, 200),
 		name : "Fobos",
 		year : 1988,
 		duration : "1 Jahr",
 		country : "USSR"
 	}, {
-		path : IG.util.createRandomPath(600, 200, 630, 220),
+		path : IG.util.createRandomPath(600, 150, 630, 220),
 		name : "Venus Express",
 		year : 2005,
 		duration : "6 Monate",
 		country : "EU"
 	}, {
-		path : IG.util.createRandomPath(600, 200, 130, 220),
+		path : IG.util.createRandomPath(600, 150, 130, 220),
 		name : "Shenzhou 5",
 		year : 2003,
 		duration : "21:23 h.",
 		country : "CHINA"
 	}, {
-		path : IG.util.createRandomPath(600, 200, 400, 220),
+		path : IG.util.createRandomPath(600, 150, 400, 220),
 		name : "Opportunity",
 		year : 2003,
 		duration : "10 Jahre",
 		country : "USA"
 	}, {
-		path : IG.util.createRandomPath(600, 200, 200, 220),
+		path : IG.util.createRandomPath(600, 150, 200, 220),
 		name : "Messanger",
 		year : 2004,
 		duration : "8 Jahre",
