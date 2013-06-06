@@ -71,22 +71,22 @@ IG.data = {
 	{
 		name : "Mars",
 		color : "#e3794b",
-		radius : 3400,
+		radius : 34,
 		positionFromSun : 4
 	}, {
 		name : "Erde",
 		color : "#4da6b3",
-		radius : 6035,
+		radius : 60,
 		positionFromSun : 3
 	}, {
 		name : "Venus",
 		color : "#e8be8c",
-		radius : 6050,
+		radius : 60,
 		positionFromSun : 2
 	}, {
 		name : "Merkur",
 		color : "#b0a994",
-		radius : 2440,
+		radius : 24,
 		positionFromSun : 1
 	}],
 	

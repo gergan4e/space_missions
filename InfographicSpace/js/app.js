@@ -15,10 +15,10 @@
 
 
 // define application width (SVG)
-IG.width = 1400;
+IG.width = window.innerWidth;
 
 // define application height (SVG)
-IG.height = 400;
+IG.height = window.innerHeight;
 
 // define a SVG container
 IG.svgContainer = d3.select('body')
@@ -37,13 +37,13 @@ IG.svgContainer.selectAll('circle')
 			//styling
 			.attr('cx', function(d) { // x axis is variable
 				'use strict';
-				return d.positionFromSun * 200;
+				return d.positionFromSun * IG.width / 5;
 			})
 			.attr('cy', 150) // y axis is fix	
 			//set radius
 			.attr('r', function(d) {
 				'use strict';
-				return d.radius / 100;
+				return d.radius * IG.width / 1000 ;
 			})
 			//set color
 			.attr('fill', function(d) {
@@ -301,3 +301,8 @@ $("#slider").bind("valuesChanged", function(e, data){
 	IG.util.drawPaths(IG.util.getCurrentView());
 });
 
+$(window).resize(function() {
+	'use strict';
+	console.log('I am here');
+	window.location.reload();
+});
