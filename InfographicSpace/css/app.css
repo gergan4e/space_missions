@@ -10,3 +10,7 @@ body{
 .mar {
 	margin: 50px;
 }
+
+.fix {
+	width : 50%;
+}

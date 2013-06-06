@@ -24,8 +24,10 @@ IG.height = window.innerHeight;
 IG.svgContainer = d3.select('body')
 					// correct _namespace definition
 					.append('svg:svg')
-					.attr('width', IG.width)
-					.attr('height', IG.height);
+					    .attr("width", "100%")
+						.attr("height", "100%")
+						.attr("viewBox", "0 0 1400 600");
+
 
 /**
  * PLANETS
@@ -299,12 +301,4 @@ $("#slider").dateRangeSlider({
 $("#slider").bind("valuesChanged", function(e, data){
 	'use strict';
 	IG.util.drawPaths(IG.util.getCurrentView());
-});
-
-
-$(window).resize(function() {
-	'use strict';
-	//ignore it
-	window.location = window.location;
-	location.reload();
 });
