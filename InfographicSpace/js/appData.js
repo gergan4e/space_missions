@@ -9,6 +9,7 @@
 /*
  * Functions needed for project initialization
  */
+
 var IG = {};
 IG.util = {};
 
@@ -69,22 +70,22 @@ IG.data = {
 	planets : [
 	{
 		name : "Mars",
-		color : "red",
+		color : "#e3794b",
 		radius : 3400,
 		positionFromSun : 4
 	}, {
 		name : "Erde",
-		color : "blue",
+		color : "#4da6b3",
 		radius : 6035,
 		positionFromSun : 3
 	}, {
 		name : "Venus",
-		color : "purple",
+		color : "#e8be8c",
 		radius : 6050,
 		positionFromSun : 2
 	}, {
 		name : "Merkur",
-		color : "grey",
+		color : "#b0a994",
 		radius : 2440,
 		positionFromSun : 1
 	}],
@@ -110,19 +111,19 @@ IG.data = {
 		duration : "1 Jahr",
 		country : "USSR"
 	}, {
-		path : IG.util.createRandomPath(600, 150, 630, 220),
+		path : IG.util.createRandomPath(600, 150, 350, 220),
 		name : "Venus Express",
 		year : 2005,
 		duration : "6 Monate",
 		country : "EU"
 	}, {
-		path : IG.util.createRandomPath(600, 150, 130, 220),
+		path : IG.util.createRandomPath(600, 150, 500, 220),
 		name : "Shenzhou 5",
 		year : 2003,
 		duration : "21:23 h.",
 		country : "CHINA"
 	}, {
-		path : IG.util.createRandomPath(600, 150, 400, 220),
+		path : IG.util.createRandomPath(600, 150, 800, 180),
 		name : "Opportunity",
 		year : 2003,
 		duration : "10 Jahre",

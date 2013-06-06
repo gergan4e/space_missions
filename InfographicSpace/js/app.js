@@ -13,6 +13,7 @@
 
 /*global $, console*/
 
+
 // define application width (SVG)
 IG.width = 1400;
 
