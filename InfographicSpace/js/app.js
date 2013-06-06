@@ -301,8 +301,10 @@ $("#slider").bind("valuesChanged", function(e, data){
 	IG.util.drawPaths(IG.util.getCurrentView());
 });
 
+
 $(window).resize(function() {
 	'use strict';
-	console.log('I am here');
-	window.location.reload();
+	//ignore it
+	window.location = window.location;
+	location.reload();
 });
