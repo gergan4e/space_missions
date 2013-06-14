@@ -67,29 +67,6 @@ IG.util.createRandomPath = function(startXcoordinate, startYcoordinate, endXcoor
 
 IG.data = {
 
-	planets : [
-	{
-		name : "Mars",
-		color : "#e3794b",
-		radius : 34,
-		positionFromSun : 4
-	}, {
-		name : "Erde",
-		color : "#4da6b3",
-		radius : 60,
-		positionFromSun : 3
-	}, {
-		name : "Venus",
-		color : "#e8be8c",
-		radius : 60,
-		positionFromSun : 2
-	}, {
-		name : "Merkur",
-		color : "#b0a994",
-		radius : 24,
-		positionFromSun : 1
-	}],
-	
 	
 	missions : [
 	{

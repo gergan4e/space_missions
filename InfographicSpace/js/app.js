@@ -20,7 +20,7 @@ IG.width = window.innerWidth;
 // define application height (SVG)
 IG.height = window.innerHeight;
 
-// define a SVG container
+// define a SVG container - the place where the SVG are drawn
 IG.svgContainer = d3.select('body')
 					// correct _namespace definition
 					.append('svg:svg')
@@ -32,36 +32,31 @@ IG.svgContainer = d3.select('body')
 /**
  * PLANETS
  */
-IG.svgContainer.selectAll('circle')
-			.data(IG.data.planets) // source
-			.enter() // does not exist yet
-			.append('svg:circle') // for each represented by d (in functions)
-			//styling
-			.attr('cx', function(d) { // x axis is variable
-				'use strict';
-				return d.positionFromSun * IG.width / 5;
-			})
-			.attr('cy', 150) // y axis is fix	
-			//set radius
-			.attr('r', function(d) {
-				'use strict';
-				return d.radius * IG.width / 1000 ;
-			})
-			//set color
-			.attr('fill', function(d) {
-				'use strict';
-				return d.color;
-			})
+IG.spaceObjects = {
+	setObject : function(nameSpaceObject, x, y, width, height){
+		'use strict';
+		IG.svgContainer
+		.append('svg:image')
+		.attr('xlink:href', 
+		'img/planets/' + nameSpaceObject + '_BILD.png')
+		.attr('x', x)
+		.attr('y', y)
+		.attr('width', width/120)
+		.attr('height', height/120)
+		.attr('name', nameSpaceObject);
+	}
+};
 
-			//set _tooltip options
-			.attr('rel', 'tooltip')
-			.attr('data-html', true)
-			.attr('data-original-title', function(d) {
-				'use strict';
-				var htmlText = '<div style = "color:' + d.color + '"><h6>' + 
-				'Mein Name ist ' + d.name + '</h6> </div>';
-				return htmlText;
-			});
+IG.spaceObjects.setObject('Sonne', -1200, -200, 170000, 170000);
+IG.spaceObjects.setObject('Merkur', 250, 300, 4880, 4880);
+IG.spaceObjects.setObject('Venus', 400, 270, 12100, 12100);
+IG.spaceObjects.setObject('Erde', 600, 260, 12700, 12700);
+IG.spaceObjects.setObject('Mond', 700, 220, 3476, 3476);
+IG.spaceObjects.setObject('Mars', 850, 280, 6800, 6800);
+IG.spaceObjects.setObject('Asteroidenguertel', 950, 60, 20000, 60000);
+IG.spaceObjects.setObject('Ceres', 1000, 400, 975, 975);
+IG.spaceObjects.setObject('Jupiter', 1300, 100, 140000, 140000);
+
 
 
 /**
