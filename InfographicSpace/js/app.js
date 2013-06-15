@@ -41,21 +41,22 @@ IG.spaceObjects = {
 		'img/planets/' + nameSpaceObject + '_BILD.png')
 		.attr('x', x)
 		.attr('y', y)
-		.attr('width', width/120)
-		.attr('height', height/120)
+		.attr('width', width)
+		.attr('height', height)
 		.attr('name', nameSpaceObject);
 	}
 };
 
-IG.spaceObjects.setObject('Sonne', -1200, -200, 170000, 170000);
-IG.spaceObjects.setObject('Merkur', 250, 300, 4880, 4880);
-IG.spaceObjects.setObject('Venus', 400, 270, 12100, 12100);
-IG.spaceObjects.setObject('Erde', 600, 260, 12700, 12700);
-IG.spaceObjects.setObject('Mond', 700, 220, 3476, 3476);
-IG.spaceObjects.setObject('Mars', 850, 280, 6800, 6800);
-IG.spaceObjects.setObject('Asteroidenguertel', 950, 60, 20000, 60000);
-IG.spaceObjects.setObject('Ceres', 1000, 400, 975, 975);
-IG.spaceObjects.setObject('Jupiter', 1300, 100, 140000, 140000);
+IG.spaceObjects.setObject('Sonne', -500, -200, 1200, 1200);
+IG.spaceObjects.setObject('Merkur', 200, 300, 4.8, 4.8);
+IG.spaceObjects.setObject('Venus', 230, 270, 12.1, 12.1);
+IG.spaceObjects.setObject('Erde', 260, 260, 12.7, 12.7);
+IG.spaceObjects.setObject('Mond', 300, 250, 3.4, 3.4);
+IG.spaceObjects.setObject('Mars', 330, 280, 6.8, 6.8);
+IG.spaceObjects.setObject('Asteroidenguertel', 360, 60, 100, 400);
+IG.spaceObjects.setObject('Ceres', 380, 400, 0.97, 0.97);
+IG.spaceObjects.setObject('Jupiter', 500, 200, 140.0, 140.0);
+IG.spaceObjects.setObject('Saturn', 750, 180, 280.0, 280.0);
 
 
 
