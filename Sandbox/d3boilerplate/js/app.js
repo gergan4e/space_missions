@@ -1,6 +1,5 @@
 /*global  */
 
-//Width and height
 var width = 1000;
 var height = 500;
 
@@ -13,7 +12,9 @@ var svg = d3
 	.attr("width", width)
 	.attr("height", height);
 	
-	svg
+var circleGroup = svg.append('g'); //group the elements
+	
+	circleGroup
 	.selectAll("circle")
 	.data(data)
 	.enter()
@@ -33,3 +34,22 @@ var svg = d3
 		'use strict';
 		return "blue";
 	});
+
+circleGroup.call(d3.behavior.zoom()
+.scale(1)
+.scaleExtent([1, 20])
+.on("zoom", redraw));
+
+
+function redraw() {'use strict';
+	circleGroup.attr("transform", "translate(" +
+	 d3.event.translate[0] + ',' + d3.event.translate[1] + ") scale(" 
+	 + d3.event.scale + ")");
+}
+
+
+
+
+
+
+

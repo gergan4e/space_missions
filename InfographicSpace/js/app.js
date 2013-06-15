@@ -14,19 +14,11 @@
 /*global $, console*/
 
 
-
-
-
-
-
 // define application width (SVG)
 IG.width = window.innerWidth;
 
 // define application height (SVG)
 IG.height = window.innerHeight;
-
-var projection = d3.geo.mercator(),
-    path = d3.geo.path().projection(projection);
 
 
 // define a SVG container - the place where the SVG are drawn
@@ -38,17 +30,6 @@ IG.svgContainer = d3.select('body')
 						.attr("viewBox", "0 0 1400 600");
 						
 
-
-IG.spaceObjectContainer = IG.svgContainer.append('svg:g')
-						.call(d3.behavior.zoom()
-						.translate(projection.translate())
-						.scale(projection.scale())
-						.on("zoom", redraw));
-function redraw() {
-	'use strict';
-	IG.spaceObjectContainer.attr("transform", "translate(" + d3.event.translate[0] + "," + d3.event.translate[1] + ") scale(" + d3.event.scale + ")");
-
-}
 /**
  * PLANETS
  */
@@ -64,8 +45,29 @@ IG.spaceObjects = {
 		.attr('width', width)
 		.attr('height', height)
 		.attr('name', nameSpaceObject);
+	}, 
+	
+
+	addZoomFunctionality : function() {'use strict';
+			console.log(d3.event.translate);
+			IG.spaceObjectContainer
+				.attr("transform", "translate(" + d3.event.translate[0]
+				+ ',' + d3.event.translate[1] + ") scale(" 
+				+ d3.event.scale + ")");
+
 	}
+
 };
+
+//Create a new container object, which should hold the space objects (f.e. sun, planets etc.)
+IG.spaceObjectContainer = IG.svgContainer.append('svg:g') // g means group (to group the elements in container)
+							.call(d3.behavior 
+									.zoom() //attach a zoom behavior, which observes mouse wheel to zoom
+											// and mouse click to translate
+									.scale(1) // initial scale is the original size
+									.scaleExtent([1, 8])  // scale interval
+									.on("zoom", IG.spaceObjects.addZoomFunctionality)); // on zoom <=> on mouse wheel or no mouse click with 
+																						// translative intention (see the function above)
 
 IG.spaceObjects.setObject('Sonne', -1000, -200, 1200, 1200);
 IG.spaceObjects.setObject('Merkur', 200, 300, 4.8, 4.8);
