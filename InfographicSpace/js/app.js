@@ -67,7 +67,7 @@ IG.spaceObjects = {
 	}
 };
 
-IG.spaceObjects.setObject('Sonne', -500, -200, 1200, 1200);
+IG.spaceObjects.setObject('Sonne', -1000, -200, 1200, 1200);
 IG.spaceObjects.setObject('Merkur', 200, 300, 4.8, 4.8);
 IG.spaceObjects.setObject('Venus', 230, 270, 12.1, 12.1);
 IG.spaceObjects.setObject('Erde', 260, 260, 12.7, 12.7);
