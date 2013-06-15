@@ -14,11 +14,20 @@
 /*global $, console*/
 
 
+
+
+
+
+
 // define application width (SVG)
 IG.width = window.innerWidth;
 
 // define application height (SVG)
 IG.height = window.innerHeight;
+
+var projection = d3.geo.mercator(),
+    path = d3.geo.path().projection(projection);
+
 
 // define a SVG container - the place where the SVG are drawn
 IG.svgContainer = d3.select('body')
@@ -27,15 +36,26 @@ IG.svgContainer = d3.select('body')
 					    .attr("width", "100%")
 						.attr("height", "100%")
 						.attr("viewBox", "0 0 1400 600");
+						
 
 
+IG.spaceObjectContainer = IG.svgContainer.append('svg:g')
+						.call(d3.behavior.zoom()
+						.translate(projection.translate())
+						.scale(projection.scale())
+						.on("zoom", redraw));
+function redraw() {
+	'use strict';
+	IG.spaceObjectContainer.attr("transform", "translate(" + d3.event.translate[0] + "," + d3.event.translate[1] + ") scale(" + d3.event.scale + ")");
+
+}
 /**
  * PLANETS
  */
 IG.spaceObjects = {
 	setObject : function(nameSpaceObject, x, y, width, height){
 		'use strict';
-		IG.svgContainer
+		IG.spaceObjectContainer
 		.append('svg:image')
 		.attr('xlink:href', 
 		'img/planets/' + nameSpaceObject + '_BILD.png')
