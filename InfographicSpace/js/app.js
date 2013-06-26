@@ -34,32 +34,9 @@ IG.svgContainer = d3.select('body')
  * PLANETS
  */
 
-//IG.spaceObjects.setObject('Venus', 230, 270, 12.1, 12.1);
-//IG.spaceObjects.setObject('Erde', 260, 260, 12.7, 12.7);
-//IG.spaceObjects.setObject('Mond', 300, 250, 3.4, 3.4);
-//IG.spaceObjects.setObject('Mars', 330, 280, 6.8, 6.8);
-//IG.spaceObjects.setObject('Asteroidenguertel', 360, 60, 100, 400);
-//IG.spaceObjects.setObject('Ceres', 380, 400, 0.97, 0.97);
-//IG.spaceObjects.setObject('Jupiter', 500, 200, 140.0, 140.0);
-//IG.spaceObjects.setObject('Saturn', 750, 180, 280.0, 280.0);
-	
+IG.spaceObjects  = {
 	collection : [
-                    {
-    		            nameOfTheSpaceObject: 'Sonne', 
-                        xCoordinate : -1000,
-                        yCoordinate : -200,
-                        width : 1200,
-                        height : 1200
-                	},
-
-                    }
-    		            nameOfTheSpaceObject: 'Merkur', 
-                        xCoordinate :  200,
-                        yCoordinate :  300,
-                        width : 4.8,
-                        height : 4.8
-                	}
-                 
+                   
     ],
 	
 	setObject : function(planet){
@@ -67,9 +44,9 @@ IG.svgContainer = d3.select('body')
 		IG.spaceObjectContainer
 		.append('svg:image')
 		.attr('xlink:href', 
-		'img/planets/' + planet.nameSpaceObject + '_BILD.png')
-		.attr('x', xCoordinate)
-		.attr('y', yCoordinate)
+		'img/planets/' + planet.nameOfTheSpaceObject + '_BILD.png')
+		.attr('x', planet.xCoordinate)
+		.attr('y', planet.yCoordinate)
 		.attr('width', planet.width)
 		.attr('height', planet.height)
 		.attr('name', planet.nameOfTheSpaceObject);
@@ -87,12 +64,45 @@ IG.svgContainer = d3.select('body')
 
 };
 
+// the method creates a planet object and adds it to 
+// the IG.spaceObjects.collection
+IG.util.planetFactory = function(name, x, y, width, height){
+	'use strict';
+	var planet = {
+		nameOfTheSpaceObject : name,
+		xCoordinate : x,
+		yCoordinate : y,
+		width : width, 
+		height : height
+	};
+	IG.spaceObjects.collection.push(planet);
+};
+
+//Create a container for the planets and add the zoom functionality
 IG.spaceObjectContainer = IG.svgContainer.append('svg:g')
 				            .call(d3.behavior 
 				            .zoom() 
 				            .scale(1) 
-							.scaleExtent([1, 8])  // scale interval
+							.scaleExtent([1, 4])  // scale interval
 							.on("zoom", IG.spaceObjects.addZoomFunctionality)); 
+
+
+
+//create planets (or add planets)
+IG.util.planetFactory('Sonne', -1000, -200, 1200, 1200);
+IG.util.planetFactory('Jupiter', 500, 200, 140.0, 140.0);
+
+
+//draw the planets (IG.spaceObjects.collection)
+IG.util.planetDrawer = function(){
+	'use strict';
+	var i, collection = IG.spaceObjects.collection; 
+	for(i = 0; i < collection.length; i = i+1){
+		IG.spaceObjects.setObject(collection[i]);
+	}
+};
+//invoke
+IG.util.planetDrawer();
 
 
 /**
@@ -147,8 +157,6 @@ IG.flags.appendFlag('USA', 1200, 0);
 /**
  * Utility functions 
  */
-
-
 IG.util.changeTooltipColorTo = function(color) {'use strict';
 	$('.tooltip-inner').css('background-color', color);
 	$('.tooltip.top .tooltip-arrow').css('border-top-color', color);
