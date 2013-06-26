@@ -1,7 +1,7 @@
 /*
- * Please use English variables and comments.
- * Exception: Variables, that will be shown as view.
- */
+* Please use English variables and comments.
+* Exception: Variables, that will be shown as view.
+*/
 
 /*global console, $, drawSpecificPaths, spaceMissions */
 
