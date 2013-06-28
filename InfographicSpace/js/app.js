@@ -83,7 +83,7 @@ IG.spaceObjectContainer = IG.svgContainer.append('svg:g')
 				            .call(d3.behavior 
 				            .zoom() 
 				            .scale(1) 
-							.scaleExtent([1, 8])  // scale interval
+							.scaleExtent([1, 20])  // scale interval
 							.on("zoom", IG.spaceObjects.addZoomFunctionality)); 
 
 
@@ -299,7 +299,7 @@ IG.util.drawPaths = function(currentState) {
 
 
 	function addPath(spaceMission) {
-		IG.svgContainer
+		IG.spaceObjectContainer
 		.append('path')
 		.attr('d', line(spaceMission.path))
 		.attr('name', spaceMission.name)
