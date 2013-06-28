@@ -33,18 +33,18 @@ IG.util.createRandomPath = function(startXcoordinate, startYcoordinate, endXcoor
 			path.push(initialPosition);
 
 			// the number of segments in the line interpolation (between 1 and 5)
-			numberOfDummySegments = IG.util.getRandomInt(1, 5);
+			numberOfDummySegments = IG.util.getRandomInt(1, 3);
 
 			//create a loop, which generates dummy segments in a given range
 			counter = 0;
 			while (counter < numberOfDummySegments) {
 				//define the range
 				segment = {
-					'x' : IG.util.getRandomInt(Math.min(startXcoordinate + 100,
-							endXcoordinate + 100), Math.max(startXcoordinate + 100, 
-							endXcoordinate + 100)),
-					'y' : IG.util.getRandomInt(Math.min(startYcoordinate + 100, endYcoordinate + 100), 
-					Math.max(startYcoordinate + 100, endYcoordinate + 100))
+					'x' : IG.util.getRandomInt(Math.min(startXcoordinate + 50,
+							endXcoordinate + 50), Math.max(startXcoordinate + 50, 
+							endXcoordinate + 50)),
+					'y' : IG.util.getRandomInt(Math.min(startYcoordinate + 50, endYcoordinate + 50), 
+					Math.max(startYcoordinate + 50, endYcoordinate + 50))
 				};
 
 				path.push(segment);
@@ -70,43 +70,43 @@ IG.data = {
 	
 	missions : [
 	{
-		path : IG.util.createRandomPath(600, 150, 400, 400),
+		path : IG.util.createRandomPath(500, 270, 520, 280),
 		name : "Wostok",
 		year : 1961,
 		duration : "1:48 h.",
 		country : "USSR"
 	}, {
-		path : IG.util.createRandomPath(600, 150, 200, 200),
+		path : IG.util.createRandomPath(500, 270, 330, 300),
 		name : "Mercury-Atlas 6",
 		year : 1962,
 		duration : "4:55 h.",
 		country : "USA"
 	}, {
-		path : IG.util.createRandomPath(600, 150, 800, 200),
+		path : IG.util.createRandomPath(500, 270, 680, 280),
 		name : "Fobos",
 		year : 1988,
 		duration : "1 Jahr",
 		country : "USSR"
 	}, {
-		path : IG.util.createRandomPath(600, 150, 350, 220),
+		path : IG.util.createRandomPath(500, 270, 430, 280),
 		name : "Venus Express",
 		year : 2005,
 		duration : "6 Monate",
 		country : "EU"
 	}, {
-		path : IG.util.createRandomPath(600, 150, 500, 220),
+		path : IG.util.createRandomPath(500, 270, 500, 220),
 		name : "Shenzhou 5",
 		year : 2003,
 		duration : "21:23 h.",
 		country : "CHINA"
 	}, {
-		path : IG.util.createRandomPath(600, 150, 800, 180),
+		path : IG.util.createRandomPath(500, 270, 650, 280),
 		name : "Opportunity",
 		year : 2003,
 		duration : "10 Jahre",
 		country : "USA"
 	}, {
-		path : IG.util.createRandomPath(600, 150, 200, 220),
+		path : IG.util.createRandomPath(500, 270, 300, 330),
 		name : "Messanger",
 		year : 2004,
 		duration : "8 Jahre",

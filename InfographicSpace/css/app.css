@@ -4,7 +4,7 @@ body{
 }
 
 .marLeft{
-	margin-left: 160px;
+	margin-left: 2px;
 }
 
 .mar {
@@ -13,4 +13,7 @@ body{
 
 .fix {
 	width : 50%;
+}
+
+#visual {
 }

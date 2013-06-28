@@ -20,15 +20,15 @@ IG.width = window.innerWidth;
 // define application height (SVG)
 IG.height = window.innerHeight;
 
-
 // define a SVG container - the place where the SVG are drawn
 IG.svgContainer = d3.select('body')
 					// correct _namespace definition
 					.append('svg:svg')
-					.attr("width", "100%")
-					.attr("height", "100%")
-					.attr("viewBox", "0 0 1400 600");
-						
+					.attr('width', '100%')
+					.attr('height', '100%')
+					.attr('viewBox', '0 57 1600 600');
+			
+													
 
 /**
  * PLANETS
@@ -83,15 +83,30 @@ IG.spaceObjectContainer = IG.svgContainer.append('svg:g')
 				            .call(d3.behavior 
 				            .zoom() 
 				            .scale(1) 
-							.scaleExtent([1, 4])  // scale interval
+							.scaleExtent([1, 8])  // scale interval
 							.on("zoom", IG.spaceObjects.addZoomFunctionality)); 
 
 
 
 //create planets (or add planets)
 IG.util.planetFactory('Sonne', -1000, -200, 1200, 1200);
-IG.util.planetFactory('Jupiter', 500, 200, 140.0, 140.0);
-
+IG.util.planetFactory('Merkur', 300, 300, 4.8, 4.8);
+IG.util.planetFactory('Venus', 400, 280, 12.1, 12.1);
+IG.util.planetFactory('Halley', 450, 200, 4.0, 4.0);
+IG.util.planetFactory('Erde', 500, 270, 12.7, 12.7);
+IG.util.planetFactory('Mond', 530, 250, 3.4, 3.4);
+IG.util.planetFactory('Mars', 650, 280, 6.8, 6.8);
+IG.util.planetFactory('Phobos', 680, 270, 1.5, 1.5);
+IG.util.planetFactory('Asteroidenguertel', -1450, -850, 2500, 2500);
+IG.util.planetFactory('Ceres', 820, 400, 0.97, 0.97);
+IG.util.planetFactory('Hartley', 1000, 200, 4.0, 4.0);
+IG.util.planetFactory('Jupiter', 1100, 200, 140.0, 140.0);
+IG.util.planetFactory('Tempel1', 1200, 400, 4.0, 4.0);
+IG.util.planetFactory('Saturn', 1400, 150, 280.0, 280.0);
+IG.util.planetFactory('Titan', 1600, 200, 1.5, 1.5);
+IG.util.planetFactory('Uranus', 1900, 240, 51.0, 51.0);
+IG.util.planetFactory('Neptun', 2200, 250, 50.0, 50.0);
+IG.util.planetFactory('Pluto', 2500, 300, 2.5, 2.5);
 
 //draw the planets (IG.spaceObjects.collection)
 IG.util.planetDrawer = function(){
@@ -109,7 +124,7 @@ IG.util.planetDrawer();
  * FLAGS 
  */
 IG.flags = {
-	appendFlag : function(countryWithCapitalLetters, x, y){
+	appendFlag : function(countryWithCapitalLetters, x, y, htmlTextAsComment){
 		'use strict';
 		IG.svgContainer
 		.append('svg:image')
@@ -126,8 +141,7 @@ IG.flags = {
 		.attr('opacity', 0.3)
 		.attr('title', 
 			function() {
-				var htmlOutput = "<h6>Click me!</h6>";
-				return htmlOutput;
+				return htmlTextAsComment;
 			}
 		)
 		
@@ -148,10 +162,64 @@ IG.flags = {
 
 };
 
-IG.flags.appendFlag('EU', 900, 0);
-IG.flags.appendFlag('USSR', 1000, 0);
-IG.flags.appendFlag('CHINA', 1100, 0);
-IG.flags.appendFlag('USA', 1200, 0);
+IG.flags.appendFlag('EU', 1000, 0, "<h6>Europäische Weltraumorganisation (ESA)</h6>");
+IG.flags.appendFlag('USSR', 1035, 50, "<h6>Sowjetunion</h6>");
+IG.flags.appendFlag('RUSSIA', 1100, 0, "<h6>Russland (ab 1992)</h6>");
+IG.flags.appendFlag('USA', 1135, 50, "<h6>Vereinigte Staaten</h6>");
+IG.flags.appendFlag('CHINA', 1200, 0, "<h6>Volksrepublik China</h6>");
+IG.flags.appendFlag('JAPAN', 1235, 50, "<h6>Japan</h6>");
+IG.flags.appendFlag('INDIA', 1300, 0, "<h6>Indien</h6>");
+
+
+
+/**
+ * SPECIALS 
+ */
+IG.specials = {
+	appendSpecial : function(Bemerkung, x, y, htmlTextAsComment){
+		'use strict';
+		IG.svgContainer
+		.append('svg:image')
+		.attr('xlink:href', 
+		'img/specials/' + Bemerkung + '_SPECIAL.png')
+		.attr('x', x)
+		.attr('y', y)
+		.attr('width', 40)
+		.attr('height', 40)
+		.attr('characteristic', Bemerkung)
+		.attr('clicked', false)
+		.attr('rel', 'tooltip')
+		.attr('data-html', true)
+		.attr('opacity', 0.3)
+		.attr('title', 
+			function() {
+				return htmlTextAsComment;
+			}
+		)
+		
+		
+		.on('click', function(){
+			if(this.getAttribute('clicked') === 'false') {
+				this.style.opacity = 1.0;
+				this.setAttribute('clicked', true);
+			} else {
+				this.style.opacity = 0.3;
+				this.setAttribute('clicked', false);
+			}
+			IG.util.drawPaths(IG.util.getCurrentView());
+			
+		});
+		
+	}
+
+};
+
+IG.specials.appendSpecial('Rekord', 1450, 0, "<h6>Rekord</h6>");
+IG.specials.appendSpecial('Weltraumtourist', 1450, 50, "<h6>Weltraumtourist</h6>");
+IG.specials.appendSpecial('Fehlstart', 1450, 100, "<h6>Fehlstart</h6>");
+IG.specials.appendSpecial('Tod', 1450, 150, "<h6>Tödliches Unglück</h6>");
+
+
 
 
 /**
