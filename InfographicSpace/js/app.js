@@ -209,11 +209,121 @@ IG.flags.appendFlag('INDIA', 1300, 0, "<h6>Indien</h6>");
 IG.specials = {
 	addRecord : function(){
 		'use strict';
-		IG.util.addScreenObject('Rekord', '_SPECIAL.png', 1450, 0, 'Rekord!', 'record');
+		var imageName = 'Rekord',
+			suffix = '_SPECIAL.png',
+			className = 'special',
+			folderName = 'specials',
+			x = '1450',
+			y ='0',
+			width = '40',
+			height = '40',
+			htmlTextAsComment = 'Rekord',
+				
+		 parameters = {
+			imageName : imageName,
+			imageSuffix : suffix,
+			x : x,
+			y: y, 
+			width : width,
+			height : height,
+			htmlTextAsComment : htmlTextAsComment,
+			className : className,
+			folderName : folderName
+		};
+		
+		IG.util.addScreenObject(parameters)
+				.attr('records', parameters.imageName);
+	},
+	
+		addTourist : function(){
+		'use strict';
+		var imageName = 'Weltraumtourist',
+			suffix = '_SPECIAL.png',
+			className = 'special',
+			folderName = 'specials',
+			x = '1450',
+			y ='50',
+			width = '40',
+			height = '40',
+			htmlTextAsComment = 'Weltraumtourist',
+				
+		 parameters = {
+			imageName : imageName,
+			imageSuffix : suffix,
+			x : x,
+			y: y, 
+			width : width,
+			height : height,
+			htmlTextAsComment : htmlTextAsComment,
+			className : className,
+			folderName : folderName
+		};
+		
+		IG.util.addScreenObject(parameters)
+				.attr('tourists', parameters.imageName);
+	},
+	
+	addFalseStart : function(){
+		'use strict';
+		var imageName = 'Fehlstart',
+			suffix = '_SPECIAL.png',
+			className = 'special',
+			folderName = 'specials',
+			x = '1450',
+			y ='100',
+			width = '40',
+			height = '40',
+			htmlTextAsComment = 'Fehlstart',
+				
+		 parameters = {
+			imageName : imageName,
+			imageSuffix : suffix,
+			x : x,
+			y: y, 
+			width : width,
+			height : height,
+			htmlTextAsComment : htmlTextAsComment,
+			className : className,
+			folderName : folderName
+		};
+		
+		IG.util.addScreenObject(parameters)
+				.attr('falseStarts', parameters.imageName);
+	},
+	
+	addDeath : function(){
+		'use strict';
+		var imageName = 'Tod',
+			suffix = '_SPECIAL.png',
+			className = 'special',
+			folderName = 'specials',
+			x = '1450',
+			y ='150',
+			width = '40',
+			height = '40',
+			htmlTextAsComment = 'Tödliches Unglück',
+				
+		 parameters = {
+			imageName : imageName,
+			imageSuffix : suffix,
+			x : x,
+			y: y, 
+			width : width,
+			height : height,
+			htmlTextAsComment : htmlTextAsComment,
+			className : className,
+			folderName : folderName
+		};
+		
+		IG.util.addScreenObject(parameters)
+				.attr('deaths', parameters.imageName);
 	}
+	
 };
-
 IG.specials.addRecord();
+IG.specials.addTourist();
+IG.specials.addFalseStart();
+IG.specials.addDeath();
 
 /**
  * Utility functions 
