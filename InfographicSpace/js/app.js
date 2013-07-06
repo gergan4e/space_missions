@@ -43,6 +43,7 @@ IG.spaceObjects  = {
 		'use strict';
 		IG.spaceObjectContainer
 		.append('svg:image')
+		.attr('class', 'planet')
 		.attr('xlink:href', 
 		'img/planets/' + planet.nameOfTheSpaceObject + '_BILD.png')
 		.attr('x', planet.xCoordinate)
@@ -63,6 +64,54 @@ IG.spaceObjects  = {
 	}
 
 };
+
+/**
+ * The function provides simple funcionality to add a navigation object 
+ * to screen. E.g. flags, specials etc. 
+ * @param imageName -> title
+ * @param x, y, htmlTextAsComment
+ * @param className -> specify the class of the image (very usefull to 
+ * differenciate objects, e.g. image.flags)
+ * @param imageSuffix -> the last part of the image file, e.g. _FLAGS.png
+ *  
+ */
+IG.util.addScreenObject = function(parameters){
+		'use strict';
+		IG.svgContainer
+		.append('svg:image')
+		.attr('class', parameters.className)
+		.attr('xlink:href', 
+		'img/' + parameters.folderName + '/' + parameters.imageName + parameters.imageSuffix)
+		.attr('x', parameters.x)
+		.attr('y', parameters.y)
+		.attr('width', parameters.width)
+		.attr('height', parameters.height)
+		.attr('country', parameters.imageName)
+		.attr('clicked', false)
+		.attr('rel', 'tooltip')
+		.attr('data-html', true)
+		.attr('opacity', 0.3)
+		.attr('title', 
+			function() {
+				return parameters.htmlTextAsComment;
+			}
+		)
+		
+		
+		.on('click', function(){
+			if(this.getAttribute('clicked') === 'false') {
+				this.style.opacity = 1.0;
+				this.setAttribute('clicked', true);
+			} else {
+				this.style.opacity = 0.3;
+				this.setAttribute('clicked', false);
+			}
+			IG.util.drawPaths(IG.util.getCurrentView());
+			
+		});
+		
+	};
+
 
 // the method creates a planet object and adds it to 
 // the IG.spaceObjects.collection
@@ -126,40 +175,26 @@ IG.util.planetDrawer();
 IG.flags = {
 	appendFlag : function(countryWithCapitalLetters, x, y, htmlTextAsComment){
 		'use strict';
-		IG.svgContainer
-		.append('svg:image')
-		.attr('xlink:href', 
-		'img/flags/' + countryWithCapitalLetters + '_FLAG.png')
-		.attr('x', x)
-		.attr('y', y)
-		.attr('width', 96)
-		.attr('height', 50)
-		.attr('country', countryWithCapitalLetters)
-		.attr('clicked', false)
-		.attr('rel', 'tooltip')
-		.attr('data-html', true)
-		.attr('opacity', 0.3)
-		.attr('title', 
-			function() {
-				return htmlTextAsComment;
-			}
-		)
-		
-		
-		.on('click', function(){
-			if(this.getAttribute('clicked') === 'false') {
-				this.style.opacity = 1.0;
-				this.setAttribute('clicked', true);
-			} else {
-				this.style.opacity = 0.3;
-				this.setAttribute('clicked', false);
-			}
-			IG.util.drawPaths(IG.util.getCurrentView());
+		var suffix = '_FLAG.png',
+			className = 'flag',
+			width = '96',
+			height = '50',
+			folderName = 'flags',
 			
-		});
+		 parameters = {
+			imageName : countryWithCapitalLetters,
+			imageSuffix : suffix,
+			x : x,
+			y: y, 
+			width : width,
+			height : height,
+			htmlTextAsComment : htmlTextAsComment,
+			className : className,
+			folderName : folderName
+		};
 		
+		IG.util.addScreenObject(parameters);
 	}
-
 };
 
 IG.flags.appendFlag('EU', 1000, 0, "<h6>Europäische Weltraumorganisation (ESA)</h6>");
@@ -170,57 +205,14 @@ IG.flags.appendFlag('CHINA', 1200, 0, "<h6>Volksrepublik China</h6>");
 IG.flags.appendFlag('JAPAN', 1235, 50, "<h6>Japan</h6>");
 IG.flags.appendFlag('INDIA', 1300, 0, "<h6>Indien</h6>");
 
-
-
-/**
- * SPECIALS 
- */
 IG.specials = {
-	appendSpecial : function(Bemerkung, x, y, htmlTextAsComment){
+	addRecord : function(){
 		'use strict';
-		IG.svgContainer
-		.append('svg:image')
-		.attr('xlink:href', 
-		'img/specials/' + Bemerkung + '_SPECIAL.png')
-		.attr('x', x)
-		.attr('y', y)
-		.attr('width', 40)
-		.attr('height', 40)
-		.attr('characteristic', Bemerkung)
-		.attr('clicked', false)
-		.attr('rel', 'tooltip')
-		.attr('data-html', true)
-		.attr('opacity', 0.3)
-		.attr('title', 
-			function() {
-				return htmlTextAsComment;
-			}
-		)
-		
-		
-		.on('click', function(){
-			if(this.getAttribute('clicked') === 'false') {
-				this.style.opacity = 1.0;
-				this.setAttribute('clicked', true);
-			} else {
-				this.style.opacity = 0.3;
-				this.setAttribute('clicked', false);
-			}
-			IG.util.drawPaths(IG.util.getCurrentView());
-			
-		});
-		
+		IG.util.addScreenObject('Rekord', '_SPECIAL.png', 1450, 0, 'Rekord!', 'record');
 	}
-
 };
 
-IG.specials.appendSpecial('Rekord', 1450, 0, "<h6>Rekord</h6>");
-IG.specials.appendSpecial('Weltraumtourist', 1450, 50, "<h6>Weltraumtourist</h6>");
-IG.specials.appendSpecial('Fehlstart', 1450, 100, "<h6>Fehlstart</h6>");
-IG.specials.appendSpecial('Tod', 1450, 150, "<h6>Tödliches Unglück</h6>");
-
-
-
+IG.specials.addRecord();
 
 /**
  * Utility functions 
@@ -256,7 +248,7 @@ IG.util.getCurrentView = function() {
 	//countries
 
 	//flags determination
-	allImages = IG.svgContainer.selectAll('image')[0];
+	allImages = IG.svgContainer.selectAll('image.flag')[0];
 	for (obj in allImages) {
 		if (allImages.hasOwnProperty(obj)) {
 			if (allImages[obj].getAttribute('clicked') === 'true') {
@@ -366,7 +358,6 @@ IG.util.drawPaths = function(currentState) {
 	IG.util.createHover('path');
 	
 }; 
-
 
 /**
  * Post _scriptum
