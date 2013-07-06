@@ -55,7 +55,6 @@ IG.spaceObjects  = {
 	
 
 	addZoomFunctionality : function() {'use strict';
-			console.log(d3.event.translate);
 			IG.spaceObjectContainer
 				.attr("transform", "translate(" + d3.event.translate[0]
 				+ ',' + d3.event.translate[1] + ") scale(" 
@@ -77,7 +76,7 @@ IG.spaceObjects  = {
  */
 IG.util.addScreenObject = function(parameters){
 		'use strict';
-		IG.svgContainer
+		var output = IG.svgContainer
 		.append('svg:image')
 		.attr('class', parameters.className)
 		.attr('xlink:href', 
@@ -86,7 +85,7 @@ IG.util.addScreenObject = function(parameters){
 		.attr('y', parameters.y)
 		.attr('width', parameters.width)
 		.attr('height', parameters.height)
-		.attr('country', parameters.imageName)
+		//.attr('country', parameters.imageName)
 		.attr('clicked', false)
 		.attr('rel', 'tooltip')
 		.attr('data-html', true)
@@ -110,6 +109,7 @@ IG.util.addScreenObject = function(parameters){
 			
 		});
 		
+		return output;
 	};
 
 
@@ -193,7 +193,8 @@ IG.flags = {
 			folderName : folderName
 		};
 		
-		IG.util.addScreenObject(parameters);
+		IG.util.addScreenObject(parameters)
+				.attr('country', parameters.imageName);
 	}
 };
 
@@ -334,18 +335,13 @@ IG.util.drawPaths = function(currentState) {
 			&& $.inArray(currentObj.country, currentState.countries) !== -1 
 			&& currentState.minDate <= currentObj.year
 			&& currentState.maxDate >= currentObj.year) {
-				console.log("It's done! Input box was empty!");
 				addPath(currentObj);				
 			} else if(currentState.name === currentObj.name 
 			&& $.inArray(currentObj.country, currentState.countries) !== -1 
 			&& currentState.minDate <= currentObj.year
 			&& currentState.maxDate >= currentObj.year){
-				console.log("It's done! Input box was not empty!");
 				addPath(currentObj);	
-			} else {
-				console.log('Nothing to do here!');
-			}
-
+			} 
 		}
 
 	}
