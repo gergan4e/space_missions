@@ -65,12 +65,12 @@ IG.spaceObjects  = {
 };
 
 /**
- * The function provides simple funcionality to add a navigation object 
+ * The function provides simple functionality to add a navigation object 
  * to screen. E.g. flags, specials etc. 
  * @param imageName -> title
  * @param x, y, htmlTextAsComment
- * @param className -> specify the class of the image (very usefull to 
- * differenciate objects, e.g. image.flags)
+ * @param className -> specify the class of the image (very useful to 
+ * diff. objects, e.g. image.flags)
  * @param imageSuffix -> the last part of the image file, e.g. _FLAGS.png
  *  
  */
@@ -211,7 +211,7 @@ IG.specials = {
 		'use strict';
 		var imageName = 'Rekord',
 			suffix = '_SPECIAL.png',
-			className = 'special',
+			className = 'record',
 			folderName = 'specials',
 			x = '1450',
 			y ='0',
@@ -239,7 +239,7 @@ IG.specials = {
 		'use strict';
 		var imageName = 'Weltraumtourist',
 			suffix = '_SPECIAL.png',
-			className = 'special',
+			className = 'tourist',
 			folderName = 'specials',
 			x = '1450',
 			y ='50',
@@ -267,7 +267,7 @@ IG.specials = {
 		'use strict';
 		var imageName = 'Fehlstart',
 			suffix = '_SPECIAL.png',
-			className = 'special',
+			className = 'falseStart',
 			folderName = 'specials',
 			x = '1450',
 			y ='100',
@@ -295,7 +295,7 @@ IG.specials = {
 		'use strict';
 		var imageName = 'Tod',
 			suffix = '_SPECIAL.png',
-			className = 'special',
+			className = 'death',
 			folderName = 'specials',
 			x = '1450',
 			y ='150',
@@ -350,13 +350,23 @@ IG.util.getCurrentView = function() {
 		name : '',
 		countries : [],
 		minDate : '',
-		maxDate : ''
+		maxDate : '',
+		//booleans
+		isRecord: '',
+		isFalseStart: '',
+		isTourist: '',
+		isLethal : ''
 	}, allImages, arrayCountries = [], obj;
-
+	
+	/**
+	 * NAME -> INPUT BOX 
+	 */
 	// name determination
 	currentState.name = $('#ssmInput').val();
 
-	//countries
+	/*
+	 * COUNTRIES
+	 */
 
 	//flags determination
 	allImages = IG.svgContainer.selectAll('image.flag')[0];
@@ -369,7 +379,34 @@ IG.util.getCurrentView = function() {
 	}
 
 	currentState.countries = arrayCountries;
-
+	
+	/*
+	 * RECORD
+	 */
+	currentState.isRecord = IG.svgContainer.selectAll('image.record')[0][0]
+								.getAttribute('clicked');
+								
+	/*
+	 * TOURIST
+	 */
+	currentState.isTourist = IG.svgContainer.selectAll('image.tourist')[0][0]
+								.getAttribute('clicked');
+								
+	/*
+	 * FALSE START
+	 */
+	currentState.isFalseStart = IG.svgContainer.selectAll('image.falseStart')[0][0]
+									.getAttribute('clicked');
+									
+	/*
+	 * DEATH
+	 */
+	currentState.isLethal = IG.svgContainer.selectAll('image.death')[0][0]
+								.getAttribute('clicked');
+	
+	/*
+	 * SLIDER
+	 */
 	// get the date of the _timeline
 	currentState.minDate = $("#slider").dateRangeSlider("values").min.getFullYear();
 	currentState.maxDate = $("#slider").dateRangeSlider("values").max.getFullYear();
@@ -440,18 +477,21 @@ IG.util.drawPaths = function(currentState) {
 		if (IG.data.missions.hasOwnProperty(obj)) {
 
 			currentObj = IG.data.missions[obj];
+			console.log(currentState);
 			// whether the input box is empty
 			if (currentState.name === '' 
 			&& $.inArray(currentObj.country, currentState.countries) !== -1 
 			&& currentState.minDate <= currentObj.year
 			&& currentState.maxDate >= currentObj.year) {
 				addPath(currentObj);				
-			} else if(currentState.name === currentObj.name 
+			} 
+			
+			else if(currentState.name === currentObj.name 
 			&& $.inArray(currentObj.country, currentState.countries) !== -1 
 			&& currentState.minDate <= currentObj.year
 			&& currentState.maxDate >= currentObj.year){
 				addPath(currentObj);	
-			} 
+			}
 		}
 
 	}
