@@ -238,6 +238,12 @@ IG.util.createHover = function(attribute) {'use strict';
 	});
 };
 
+
+IG.util.parseYear = function(date){
+	'use strict';
+	return date.substring(6);
+};
+
 IG.util.getCurrentView = function() {
 	'use strict';
 	var currentState = {
@@ -378,20 +384,21 @@ IG.util.drawPaths = function(currentState) {
 
 			currentObj = IG.data.missions[obj];
 			
+		
 			// whether the input box is empty
 			if (currentState.name === '' 
-			&& $.inArray(currentObj.country, currentState.countries) !== -1){
-			//&& currentState.minDate <= currentObj.start
-			//&& currentState.maxDate >= currentObj.start) {
+			&& $.inArray(currentObj.country, currentState.countries) !== -1
+			&& currentState.minDate <= IG.util.parseYear(currentObj.start)
+			&& currentState.maxDate >= IG.util.parseYear(currentObj.start)) {
 				addPath(currentObj);				
 			} 
 			
-			//else if(currentState.name === currentObj.mission 
-			//&& $.inArray(currentObj.country, currentState.countries) !== -1 
-			//&& currentState.minDate <= currentObj.start
-			//&& currentState.maxDate >= currentObj.start){
-				//addPath(currentObj);	
-			//}
+			else if(currentState.name === currentObj.mission 
+			&& $.inArray(currentObj.country, currentState.countries) !== -1 
+			&& currentState.minDate <= currentObj.start
+			&& currentState.maxDate >= currentObj.start){
+				addPath(currentObj);	
+			}
 		}
 
 	}
