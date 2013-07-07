@@ -62,12 +62,12 @@ IG.flags = {
 };
 
 IG.flags.appendFlag('EU', 1000, 0, "<h6>Europäische Weltraumorganisation (ESA)</h6>");
-IG.flags.appendFlag('USSR', 1035, 50, "<h6>Sowjetunion</h6>");
-IG.flags.appendFlag('RUSSIA', 1100, 0, "<h6>Russland (ab 1992)</h6>");
+IG.flags.appendFlag('UdSSR', 1035, 50, "<h6>Sowjetunion</h6>");
+IG.flags.appendFlag('Russland', 1100, 0, "<h6>Russland (ab 1992)</h6>");
 IG.flags.appendFlag('USA', 1135, 50, "<h6>Vereinigte Staaten</h6>");
-IG.flags.appendFlag('CHINA', 1200, 0, "<h6>Volksrepublik China</h6>");
-IG.flags.appendFlag('JAPAN', 1235, 50, "<h6>Japan</h6>");
-IG.flags.appendFlag('INDIA', 1300, 0, "<h6>Indien</h6>");
+IG.flags.appendFlag('China', 1200, 0, "<h6>Volksrepublik China</h6>");
+IG.flags.appendFlag('Japan', 1235, 50, "<h6>Japan</h6>");
+IG.flags.appendFlag('Indien', 1300, 0, "<h6>Indien</h6>");
 
 IG.specials = {
 	addRecord : function(){
@@ -348,14 +348,14 @@ IG.util.drawPaths = function(currentState) {
 		.attr('country', spaceMission.country)
 		.attr('year', spaceMission.start)
 		.attr('stroke', 'silver')
-		.attr('stroke-width', 1)
+		.attr('stroke-width', 0.5)
 		.attr('fill', 'none')
 		.on("mouseover", function(){
-			d3.select(this).style("stroke", 'white').style("stroke-width", "3");
+			d3.select(this).style("stroke", 'white').style("stroke-width", "2");
 		})
 		.on("mouseout", function(){	
 			//default values
-			d3.select(this).style("stroke", 'silver').style("stroke-width", "1");
+			d3.select(this).style("stroke", 'silver').style("stroke-width", "0.5");
 		})
 		
 		//set _tooltip options
