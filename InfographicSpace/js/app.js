@@ -11,8 +11,7 @@
  * Application initialization
  */
 
-/*global $, console*/
-
+/*global $, console, d3*/
 
 // define application width (SVG)
 IG.width = window.innerWidth;
@@ -20,147 +19,6 @@ IG.width = window.innerWidth;
 // define application height (SVG)
 IG.height = window.innerHeight;
 
-// define a SVG container - the place where the SVG are drawn
-IG.svgContainer = d3.select('body')
-					// correct _namespace definition
-					.append('svg:svg')
-					.attr('width', '100%')
-					.attr('height', '100%')
-					.attr('viewBox', '0 57 1600 600');
-			
-													
-
-/**
- * PLANETS
- */
-
-IG.spaceObjects  = {
-	collection : [
-                   
-    ],
-	
-	setObject : function(planet){
-		'use strict';
-		IG.spaceObjectContainer
-		.append('svg:image')
-		.attr('class', 'planet')
-		.attr('xlink:href', 
-		'img/planets/' + planet.nameOfTheSpaceObject + '_BILD.png')
-		.attr('x', planet.xCoordinate)
-		.attr('y', planet.yCoordinate)
-		.attr('width', planet.width)
-		.attr('height', planet.height)
-		.attr('name', planet.nameOfTheSpaceObject);
-	}, 
-	
-
-	addZoomFunctionality : function() {'use strict';
-			IG.spaceObjectContainer
-				.attr("transform", "translate(" + d3.event.translate[0]
-				+ ',' + d3.event.translate[1] + ") scale(" 
-				+ d3.event.scale + ")");
-
-	}
-
-};
-
-/**
- * The function provides simple functionality to add a navigation object 
- * to screen. E.g. flags, specials etc. 
- * @param imageName -> title
- * @param x, y, htmlTextAsComment
- * @param className -> specify the class of the image (very useful to 
- * diff. objects, e.g. image.flags)
- * @param imageSuffix -> the last part of the image file, e.g. _FLAGS.png
- *  
- */
-IG.util.addScreenObject = function(parameters){
-		'use strict';
-		var output = IG.svgContainer
-		.append('svg:image')
-		.attr('class', parameters.className)
-		.attr('xlink:href', 
-		'img/' + parameters.folderName + '/' + parameters.imageName + parameters.imageSuffix)
-		.attr('x', parameters.x)
-		.attr('y', parameters.y)
-		.attr('width', parameters.width)
-		.attr('height', parameters.height)
-		//.attr('country', parameters.imageName)
-		.attr('clicked', false)
-		.attr('rel', 'tooltip')
-		.attr('data-html', true)
-		.attr('opacity', 0.3)
-		.attr('title', 
-			function() {
-				return parameters.htmlTextAsComment;
-			}
-		)
-		
-		
-		.on('click', function(){
-			if(this.getAttribute('clicked') === 'false') {
-				this.style.opacity = 1.0;
-				this.setAttribute('clicked', true);
-			} else {
-				this.style.opacity = 0.3;
-				this.setAttribute('clicked', false);
-			}
-			IG.util.drawPaths(IG.util.getCurrentView());
-			
-		});
-		
-		return output;
-	};
-
-
-// the method creates a planet object and adds it to 
-// the IG.spaceObjects.collection
-IG.util.planetFactory = function(name, x, y, width, height){
-	'use strict';
-	var planet = {
-		nameOfTheSpaceObject : name,
-		xCoordinate : x,
-		yCoordinate : y,
-		width : width, 
-		height : height
-	};
-	IG.spaceObjects.collection.push(planet);
-};
-
-//Create a container for the planets and add the zoom functionality
-IG.spaceObjectContainer = IG.svgContainer.append('svg:g')
-				            .call(d3.behavior 
-				            .zoom() 
-				            .scale(1) 
-							.scaleExtent([1, 20])  // scale interval
-							.on("zoom", IG.spaceObjects.addZoomFunctionality)); 
-
-
-
-//create planets (or add planets)
-IG.util.planetFactory('Sonne', -1000, -200, 1200, 1200);
-IG.util.planetFactory('Merkur', 300, 300, 4.8, 4.8);
-IG.util.planetFactory('Venus', 400, 280, 12.1, 12.1);
-IG.util.planetFactory('Halley', 450, 200, 4.0, 4.0);
-IG.util.planetFactory('Erde', 500, 270, 12.7, 12.7);
-IG.util.planetFactory('Mond', 530, 250, 3.4, 3.4);
-IG.util.planetFactory('Saljut5', 480, 250, 1, 1);
-IG.util.planetFactory('Saljut6', 485, 260, 1, 1);
-IG.util.planetFactory('Saljut7', 490, 250, 1, 1);
-IG.util.planetFactory('Mir', 510, 250, 1, 1);
-IG.util.planetFactory('ISS', 520, 280, 1, 1);
-IG.util.planetFactory('Mars', 650, 280, 6.8, 6.8);
-IG.util.planetFactory('Phobos', 680, 270, 1.5, 1.5);
-IG.util.planetFactory('Asteroidenguertel', -1450, -850, 2500, 2500);
-IG.util.planetFactory('Ceres', 820, 400, 0.97, 0.97);
-IG.util.planetFactory('Hartley', 1000, 200, 4.0, 4.0);
-IG.util.planetFactory('Jupiter', 1100, 200, 140.0, 140.0);
-IG.util.planetFactory('Tempel1', 1200, 400, 4.0, 4.0);
-IG.util.planetFactory('Saturn', 1400, 150, 280.0, 280.0);
-IG.util.planetFactory('Titan', 1600, 200, 1.5, 1.5);
-IG.util.planetFactory('Uranus', 1900, 240, 51.0, 51.0);
-IG.util.planetFactory('Neptun', 2200, 250, 50.0, 50.0);
-IG.util.planetFactory('Pluto', 2500, 300, 2.5, 2.5);
 
 //draw the planets (IG.spaceObjects.collection)
 IG.util.planetDrawer = function(){
@@ -322,13 +180,44 @@ IG.specials = {
 		
 		IG.util.addScreenObject(parameters)
 				.attr('deaths', parameters.imageName);
+	},
+	
+		addManned : function(){
+		'use strict';
+		var imageName = 'Bemannt',
+			suffix = '_SPECIAL.png',
+			className = 'manned',
+			folderName = 'specials',
+			x = '1450',
+			y ='200',
+			width = '40',
+			height = '40',
+			htmlTextAsComment = 'Bemannt',
+				
+		 parameters = {
+			imageName : imageName,
+			imageSuffix : suffix,
+			x : x,
+			y: y, 
+			width : width,
+			height : height,
+			htmlTextAsComment : htmlTextAsComment,
+			className : className,
+			folderName : folderName
+		};
+		
+		IG.util.addScreenObject(parameters)
+				.attr('deaths', parameters.imageName);
 	}
+	
+	
 	
 };
 IG.specials.addRecord();
 IG.specials.addTourist();
 IG.specials.addFalseStart();
 IG.specials.addDeath();
+IG.specials.addManned();
 
 /**
  * Utility functions 
@@ -360,7 +249,8 @@ IG.util.getCurrentView = function() {
 		isRecord: '',
 		isFalseStart: '',
 		isTourist: '',
-		isLethal : ''
+		isLethal : '',
+		isManned : ''
 	}, allImages, arrayCountries = [], obj;
 	
 	/**
@@ -372,7 +262,6 @@ IG.util.getCurrentView = function() {
 	/*
 	 * COUNTRIES
 	 */
-
 	//flags determination
 	allImages = IG.svgContainer.selectAll('image.flag')[0];
 	for (obj in allImages) {
@@ -384,6 +273,12 @@ IG.util.getCurrentView = function() {
 	}
 
 	currentState.countries = arrayCountries;
+	
+	/*
+	 * MANNED
+	 */
+	currentState.isManned= IG.svgContainer.selectAll('image.manned')[0][0]
+								.getAttribute('clicked');
 	
 	/*
 	 * RECORD
@@ -449,10 +344,9 @@ IG.util.drawPaths = function(currentState) {
 		IG.spaceObjectContainer
 		.append('path')
 		.attr('d', line(spaceMission.path))
-		.attr('name', spaceMission.name)
+		.attr('name', spaceMission.mission)
 		.attr('country', spaceMission.country)
-		.attr('duration', spaceMission.duration)
-		.attr('year', spaceMission.year)
+		.attr('year', spaceMission.start)
 		.attr('stroke', 'silver')
 		.attr('stroke-width', 1)
 		.attr('fill', 'none')
@@ -484,7 +378,6 @@ IG.util.drawPaths = function(currentState) {
 		if (IG.data.missions.hasOwnProperty(obj)) {
 
 			currentObj = IG.data.missions[obj];
-			console.log(currentState);
 			// whether the input box is empty
 			if (currentState.name === '' 
 			&& $.inArray(currentObj.country, currentState.countries) !== -1 
