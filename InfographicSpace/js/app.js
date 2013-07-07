@@ -390,14 +390,14 @@ IG.util.drawPaths = function(currentState) {
 		.attr('country', spaceMission.country)
 		.attr('year', spaceMission.start)
 		.attr('stroke', 'silver')
-		.attr('stroke-width', 0.5)
+		.attr('stroke-width', 0.05)
 		.attr('fill', 'none')
 		.on("mouseover", function(){
-			d3.select(this).style("stroke", 'white').style("stroke-width", "2");
+			d3.select(this).style("stroke", 'white').style("stroke-width", "0.2");
 		})
 		.on("mouseout", function(){	
 			//default values
-			d3.select(this).style("stroke", 'silver').style("stroke-width", "0.5");
+			d3.select(this).style("stroke", 'silver').style("stroke-width", "0.05");
 		})
 		
 		//set _tooltip options
@@ -412,7 +412,7 @@ IG.util.drawPaths = function(currentState) {
 		
 		
 	}
-	
+	// Don't ask me. See the function below.
 	function drawer(){
 						//check whether the specials are not activated
 				activated = currentState.isFalseStart === 'true'||
@@ -457,13 +457,10 @@ IG.util.drawPaths = function(currentState) {
 								&& currentObj.manned === currentState.isunmanned
 								&& currentObj.records === currentState.isRecord){
 									addPath(currentObj);
-							}
-							
-							
-							
+							}	
 						}
 					}
-	}
+		}
 	
 	
 	for (obj in IG.data.missions) {
@@ -477,34 +474,13 @@ IG.util.drawPaths = function(currentState) {
 			&& $.inArray(currentObj.country, currentState.countries) !== -1
 			&& currentState.minDate <= IG.util.parseYear(currentObj.start)
 			&& currentState.maxDate >= IG.util.parseYear(currentObj.start)) {
-
-
 				drawer();
-				
-				
-				//console.log(currentObj);
-				//if(currentObj.falseStart === currentState.isFalseStart
-					//&& currentObj.spaceTourist === currentState.isTourist
-					//&& currentObj.death === currentState.isLethal
-					//&& currentObj.manned === currentState.isManned
-					//&& currentObj.records === currentState.isRecord){
-					//addPath(currentObj);
-				//}
-				
-		
 			} else if (currentState.name === currentObj.mission 
 			&& $.inArray(currentObj.country, currentState.countries) !== -1
 			&& currentState.minDate <= IG.util.parseYear(currentObj.start)
 			&& currentState.maxDate >= IG.util.parseYear(currentObj.start)){
 				drawer();
 			}
-			
-			//else if(currentState.name === currentObj.mission 
-			//&& $.inArray(currentObj.country, currentState.countries) !== -1 
-			//&& currentState.minDate <= IG.util.parseYear(currentObj.start)
-			//&& currentState.maxDate >= IG.util.parseYear(currentObj.start)){
-				//addPath(currentObj);	
-			//}
 		}
 
 	}
