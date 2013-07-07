@@ -144,6 +144,11 @@ IG.util.planetFactory('Venus', 400, 280, 12.1, 12.1);
 IG.util.planetFactory('Halley', 450, 200, 4.0, 4.0);
 IG.util.planetFactory('Erde', 500, 270, 12.7, 12.7);
 IG.util.planetFactory('Mond', 530, 250, 3.4, 3.4);
+IG.util.planetFactory('Saljut5', 480, 250, 1, 1);
+IG.util.planetFactory('Saljut6', 485, 260, 1, 1);
+IG.util.planetFactory('Saljut7', 490, 250, 1, 1);
+IG.util.planetFactory('Mir', 510, 250, 1, 1);
+IG.util.planetFactory('ISS', 520, 280, 1, 1);
 IG.util.planetFactory('Mars', 650, 280, 6.8, 6.8);
 IG.util.planetFactory('Phobos', 680, 270, 1.5, 1.5);
 IG.util.planetFactory('Asteroidenguertel', -1450, -850, 2500, 2500);
@@ -413,6 +418,8 @@ IG.util.getCurrentView = function() {
 
 	return currentState;
 };
+
+
 
 IG.util.drawPaths = function(currentState) {
 	'use strict';
