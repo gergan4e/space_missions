@@ -135,6 +135,7 @@ IG.util.planetFactory('Venus', 400, 280, 12.1, 12.1);
 IG.util.planetFactory('Halley', 450, 200, 4.0, 4.0);
 IG.util.planetFactory('Erde', 500, 270, 12.7, 12.7);
 IG.util.planetFactory('Mond', 530, 250, 3.4, 3.4);
+IG.util.planetFactory('Hubble', 490, 300, 1, 1);
 IG.util.planetFactory('Saljut 5', 480, 250, 1, 1);
 IG.util.planetFactory('Saljut 6', 485, 260, 1, 1);
 IG.util.planetFactory('Saljut 7', 490, 250, 1, 1);
