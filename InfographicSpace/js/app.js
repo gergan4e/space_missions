@@ -384,13 +384,22 @@ IG.util.drawPaths = function(currentState) {
 
 			currentObj = IG.data.missions[obj];
 			
-		
 			// whether the input box is empty
 			if (currentState.name === '' 
 			&& $.inArray(currentObj.country, currentState.countries) !== -1
 			&& currentState.minDate <= IG.util.parseYear(currentObj.start)
 			&& currentState.maxDate >= IG.util.parseYear(currentObj.start)) {
-				addPath(currentObj);				
+				//check whether the specials are activated
+				console.log(currentObj);
+				if(currentObj.falseStart === currentState.isFalseStart
+					&& currentObj.spaceTourist === currentState.isTourist
+					&& currentObj.death === currentState.isLethal
+					&& currentObj.manned === currentState.isManned
+					&& currentObj.records === currentState.isRecord){
+					addPath(currentObj);
+				}
+				
+		
 			} 
 			
 			else if(currentState.name === currentObj.mission 
