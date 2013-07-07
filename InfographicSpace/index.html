@@ -51,7 +51,7 @@
 				for (obj in IG.data.missions) {
 					if (IG.data.missions.hasOwnProperty(obj)) {
 						outputString = outputString + '\"' + IG.data.missions[obj].mission + '\",';
-					}
+				}
 				}
 				//without the last comma
 				outputString = outputString.substring(0, outputString.length - 1);
@@ -63,12 +63,12 @@
 			
 			.on('blur', function() {
 				'use strict';
-				IG.util.drawPaths(IG.util.getCurrentView());
+				setTimeout('IG.util.drawPaths(IG.util.getCurrentView())', 100);
 			})
 			
 			.on('keypress', function() {'use strict';
 				if (d3.event.keyCode === 13) {
-					IG.util.drawPaths(IG.util.getCurrentView());
+					setTimeout('IG.util.drawPaths(IG.util.getCurrentView())', 100);
 				}
 			});
 
