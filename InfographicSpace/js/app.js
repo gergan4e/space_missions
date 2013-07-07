@@ -77,7 +77,7 @@ IG.specials = {
 			className = 'record',
 			folderName = 'specials',
 			x = '1450',
-			y ='0',
+			y ='100',
 			width = '40',
 			height = '40',
 			htmlTextAsComment = 'Rekord',
@@ -105,7 +105,7 @@ IG.specials = {
 			className = 'tourist',
 			folderName = 'specials',
 			x = '1450',
-			y ='50',
+			y ='150',
 			width = '40',
 			height = '40',
 			htmlTextAsComment = 'Weltraumtourist',
@@ -133,7 +133,7 @@ IG.specials = {
 			className = 'falseStart',
 			folderName = 'specials',
 			x = '1450',
-			y ='100',
+			y ='200',
 			width = '40',
 			height = '40',
 			htmlTextAsComment = 'Fehlstart',
@@ -161,7 +161,7 @@ IG.specials = {
 			className = 'death',
 			folderName = 'specials',
 			x = '1450',
-			y ='150',
+			y ='250',
 			width = '40',
 			height = '40',
 			htmlTextAsComment = 'Tödliches Unglück',
@@ -189,9 +189,9 @@ IG.specials = {
 			className = 'manned',
 			folderName = 'specials',
 			x = '1450',
-			y ='200',
-			width = '40',
-			height = '40',
+			y ='0',
+			width = '80',
+			height = '80',
 			htmlTextAsComment = 'Bemannt',
 				
 		 parameters = {
@@ -208,6 +208,34 @@ IG.specials = {
 		
 		IG.util.addScreenObject(parameters)
 				.attr('deaths', parameters.imageName);
+	},
+	
+	addUnmanned : function(){
+		'use strict';
+		var imageName = 'Unbemannt',
+			suffix = '_SPECIAL.png',
+			className = 'unmanned',
+			folderName = 'specials',
+			x = '1400',
+			y ='0',
+			width = '80',
+			height = '80',
+			htmlTextAsComment = 'Unbemannt',
+				
+		 parameters = {
+			imageName : imageName,
+			imageSuffix : suffix,
+			x : x,
+			y: y, 
+			width : width,
+			height : height,
+			htmlTextAsComment : htmlTextAsComment,
+			className : className,
+			folderName : folderName
+		};
+		
+		IG.util.addScreenObject(parameters)
+				.attr('undeath', parameters.imageName);
 	}
 	
 	
@@ -218,6 +246,7 @@ IG.specials.addTourist();
 IG.specials.addFalseStart();
 IG.specials.addDeath();
 IG.specials.addManned();
+IG.specials.addUnmanned();
 
 /**
  * Utility functions 
@@ -256,7 +285,8 @@ IG.util.getCurrentView = function() {
 		isFalseStart: '',
 		isTourist: '',
 		isLethal : '',
-		isManned : ''
+		isManned : '', 
+		isUnmanned : ''
 	}, allImages, arrayCountries = [], obj;
 	
 	/**
@@ -284,6 +314,12 @@ IG.util.getCurrentView = function() {
 	 * MANNED
 	 */
 	currentState.isManned= IG.svgContainer.selectAll('image.manned')[0][0]
+								.getAttribute('clicked');
+								
+	/*
+	 * UNMANNED
+	 */
+	currentState.isUnmanned = IG.svgContainer.selectAll('image.unmanned')[0][0]
 								.getAttribute('clicked');
 	
 	/*
@@ -343,7 +379,7 @@ IG.util.drawPaths = function(currentState) {
 	})
 	.y(function(d) {
 		return d.y;
-	}).interpolate('basis'), selected, obj, currentObj;
+	}).interpolate('basis'), selected, obj, currentObj, activated;
 
 
 	function addPath(spaceMission) {
@@ -377,6 +413,58 @@ IG.util.drawPaths = function(currentState) {
 		
 	}
 	
+	function drawer(){
+						//check whether the specials are not activated
+				activated = currentState.isFalseStart === 'true'||
+							currentState.isTourist === 'true' ||
+							currentState.isLethal === 'true' ||
+							currentState.isManned === 'true'||
+							currentState.isUnmanned === 'true' ||
+							currentState.isRecord === 'true';
+				
+				
+					//IF TRUE => Draw all paths!
+					if (!activated) {
+						addPath(currentObj);
+						//IF FALSE
+					} else {
+						//Determine whether manned or/and unmanned are pressed (whole configuration)
+						
+						//IF manned and unmanned
+						//check the other four specials
+						if (currentState.isManned === 'true' 
+							&& currentState.isUnmanned === 'true') {
+								
+							if (currentObj.falseStart === currentState.isFalseStart && 
+								currentObj.spaceTourist === currentState.isTourist && 
+								currentObj.death === currentState.isLethal && 
+								currentObj.records === currentState.isRecord) {
+								addPath(currentObj);
+							}
+						//ELSE check all of the specials twice. Once for manned and once for unmanned.
+						} else {
+							
+							// MANNED
+							if(currentObj.falseStart === currentState.isFalseStart
+								&& currentObj.spaceTourist === currentState.isTourist
+								&& currentObj.death === currentState.isLethal
+								&& currentObj.manned === currentState.isManned
+								&& currentObj.records === currentState.isRecord){
+									addPath(currentObj);
+							} else if (currentObj.falseStart === currentState.isFalseStart
+								&& currentObj.spaceTourist === currentState.isTourist
+								&& currentObj.death === currentState.isLethal
+								&& currentObj.manned === currentState.isunmanned
+								&& currentObj.records === currentState.isRecord){
+									addPath(currentObj);
+							}
+							
+							
+							
+						}
+					}
+	}
+	
 	
 	for (obj in IG.data.missions) {
 
@@ -389,25 +477,34 @@ IG.util.drawPaths = function(currentState) {
 			&& $.inArray(currentObj.country, currentState.countries) !== -1
 			&& currentState.minDate <= IG.util.parseYear(currentObj.start)
 			&& currentState.maxDate >= IG.util.parseYear(currentObj.start)) {
-				//check whether the specials are activated
-				console.log(currentObj);
-				if(currentObj.falseStart === currentState.isFalseStart
-					&& currentObj.spaceTourist === currentState.isTourist
-					&& currentObj.death === currentState.isLethal
-					&& currentObj.manned === currentState.isManned
-					&& currentObj.records === currentState.isRecord){
-					addPath(currentObj);
-				}
+
+
+				drawer();
+				
+				
+				//console.log(currentObj);
+				//if(currentObj.falseStart === currentState.isFalseStart
+					//&& currentObj.spaceTourist === currentState.isTourist
+					//&& currentObj.death === currentState.isLethal
+					//&& currentObj.manned === currentState.isManned
+					//&& currentObj.records === currentState.isRecord){
+					//addPath(currentObj);
+				//}
 				
 		
-			} 
-			
-			else if(currentState.name === currentObj.mission 
-			&& $.inArray(currentObj.country, currentState.countries) !== -1 
+			} else if (currentState.name === currentObj.mission 
+			&& $.inArray(currentObj.country, currentState.countries) !== -1
 			&& currentState.minDate <= IG.util.parseYear(currentObj.start)
 			&& currentState.maxDate >= IG.util.parseYear(currentObj.start)){
-				addPath(currentObj);	
+				drawer();
 			}
+			
+			//else if(currentState.name === currentObj.mission 
+			//&& $.inArray(currentObj.country, currentState.countries) !== -1 
+			//&& currentState.minDate <= IG.util.parseYear(currentObj.start)
+			//&& currentState.maxDate >= IG.util.parseYear(currentObj.start)){
+				//addPath(currentObj);	
+			//}
 		}
 
 	}
