@@ -395,8 +395,8 @@ IG.util.drawPaths = function(currentState) {
 			
 			else if(currentState.name === currentObj.mission 
 			&& $.inArray(currentObj.country, currentState.countries) !== -1 
-			&& currentState.minDate <= currentObj.start
-			&& currentState.maxDate >= currentObj.start){
+			&& currentState.minDate <= IG.util.parseYear(currentObj.start)
+			&& currentState.maxDate >= IG.util.parseYear(currentObj.start)){
 				addPath(currentObj);	
 			}
 		}

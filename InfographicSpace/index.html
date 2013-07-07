@@ -23,7 +23,7 @@
 			<div class = "span1 offset0">
 				<input id = "ssmInput" type="text" placeholder="Name eingeben"
 				class="input-xlarge search-query span3" style="margin: 10px;"
-				data-provide="typeahead" data-items="2">
+				data-provide="typeahead" data-items="10">
 			</div>
 		</div>
 
@@ -59,10 +59,14 @@
 				outputString = outputString + ']';
 				return outputString;
 
-			}).on('blur', function() {'use strict';
+			})
+			
+			.on('blur', function() {
+				'use strict';
 				IG.util.drawPaths(IG.util.getCurrentView());
-			}).on('keypress', function() {'use strict';
-				//on enter TODO: use single function for blur and enter
+			})
+			
+			.on('keypress', function() {'use strict';
 				if (d3.event.keyCode === 13) {
 					IG.util.drawPaths(IG.util.getCurrentView());
 				}
