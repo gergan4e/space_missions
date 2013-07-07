@@ -188,7 +188,6 @@ IG.util.translateToCollection = function(spaceObjectName){
  */
 IG.util.getPlanetPosition = function(spaceObject){
 	'use strict';
-	console.log(spaceObject);
 	return {
 		xCoordinate: IG.util.translateToCollection(spaceObject).xCoordinate,
 		yCoordinate :  IG.util.translateToCollection(spaceObject).yCoordinate

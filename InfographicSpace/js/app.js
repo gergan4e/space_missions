@@ -372,24 +372,27 @@ IG.util.drawPaths = function(currentState) {
 	}
 	
 	
-	
 	for (obj in IG.data.missions) {
 
 		if (IG.data.missions.hasOwnProperty(obj)) {
 
 			currentObj = IG.data.missions[obj];
+			
+			console.log(currentState);
+			console.log(currentObj);
+			
 			// whether the input box is empty
 			if (currentState.name === '' 
 			&& $.inArray(currentObj.country, currentState.countries) !== -1 
-			&& currentState.minDate <= currentObj.year
-			&& currentState.maxDate >= currentObj.year) {
+			&& currentState.minDate <= currentObj.start
+			&& currentState.maxDate >= currentObj.start) {
 				addPath(currentObj);				
 			} 
 			
-			else if(currentState.name === currentObj.name 
+			else if(currentState.name === currentObj.mission 
 			&& $.inArray(currentObj.country, currentState.countries) !== -1 
-			&& currentState.minDate <= currentObj.year
-			&& currentState.maxDate >= currentObj.year){
+			&& currentState.minDate <= currentObj.start
+			&& currentState.maxDate >= currentObj.start){
 				addPath(currentObj);	
 			}
 		}
