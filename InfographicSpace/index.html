@@ -21,10 +21,9 @@
 		
 		<div class = "row marLeft">
 			<div class = "span1 offset0">
-				<input id = "ssmInput" type="text" 
-				data-provide="typeahead" data-items="10"
-				placeholder="Name eingeben"
-				class="input-xlarge search-query span3" style="margin: 10px;">
+				<input id = "ssmInput" type="text" placeholder="Name eingeben"
+				class="input-xlarge search-query span3" style="margin: 10px;"
+				data-provide="typeahead" data-items="2">
 			</div>
 		</div>
 
@@ -40,36 +39,39 @@
 		<script type="text/javascript" src="js/app.js"></script>
 		</div>
 		
-		   <script>
-      /**
-       * Input
-       */
-      d3.select('body').select('input')
-      // Automatic suggestion
-      .attr('datasource', function() {'use strict';
-        //open string
-        var outputString = '[', obj;
-        for (obj in IG.data.missions) {
-          if (IG.data.missions.hasOwnProperty(obj)) {
-            outputString = outputString + '\"' + IG.data.missions[obj].mission + '\",';
-          }
-        }
-        //without the last comma
-        outputString = outputString.substring(0, outputString.length - 1);
+		<script>
+			/**
+			 * Input
+			 */
+			d3.select('body').select('input')
+			// Automatic suggestion
+			.attr('data-source', function() {'use strict';
+				//open string
+				var outputString = '[', obj;
+				for (obj in IG.data.missions) {
+					if (IG.data.missions.hasOwnProperty(obj)) {
+						outputString = outputString + '\"' + IG.data.missions[obj].mission + '\",';
+					}
+				}
+				//without the last comma
+				outputString = outputString.substring(0, outputString.length - 1);
 
-        outputString = outputString + ']';
-        return outputString;
+				outputString = outputString + ']';
+				return outputString;
 
-      }).on('blur', function() {'use strict';
-        IG.util.drawPaths(IG.util.getCurrentView());
-      }).on('keypress', function() {'use strict';
-        //on enter TODO: use single function for blur and enter
-        if (d3.event.keyCode === 13) {
-          IG.util.drawPaths(IG.util.getCurrentView());
-        }
-      });
+			}).on('blur', function() {'use strict';
+				IG.util.drawPaths(IG.util.getCurrentView());
+			}).on('keypress', function() {'use strict';
+				//on enter TODO: use single function for blur and enter
+				if (d3.event.keyCode === 13) {
+					IG.util.drawPaths(IG.util.getCurrentView());
+				}
+			});
 
-    </script>
+		</script>
+		
+		
+		<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="bootstrap/js/bootstrap-tooltip.js"></script>
 		<script type="text/javascript" src="bootstrap/js/bootstrap-typeahead.js"></script>
 	</body>
