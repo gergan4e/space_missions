@@ -365,22 +365,25 @@ IG.util.drawPaths = function(currentState) {
 	IG.svgContainer
 			.selectAll('path')
 			.remove();
-
 	
-
-
+	var interpolation, line, selected, obj, currentObj, activated, lineX;
+	
+	
 	// you can define different line interpolations
 	//  "linear", "step-before", "step-after", "basis",
 	// "basis-closed", "cardinal", "cardinal-closed" ...
 	// See http://www.dashingd3js.com/svg-paths-and-d3js
-	var line = d3.svg.line()
+	line = d3.svg.line()
 	.x(function(d) {
 		return d.x;
 	})
 	.y(function(d) {
 		return d.y;
-	}).interpolate('basis'), selected, obj, currentObj, activated;
-
+	});
+	
+	interpolation = 'step-after';
+	
+	line.interpolate(interpolation);
 
 	function addPath(spaceMission) {
 		IG.spaceObjectContainer
@@ -388,16 +391,18 @@ IG.util.drawPaths = function(currentState) {
 		.attr('d', line(spaceMission.path))
 		.attr('name', spaceMission.mission)
 		.attr('country', spaceMission.country)
-		.attr('year', spaceMission.start)
+		.attr('start', spaceMission.start)
+		.attr('end', spaceMission.landing)
 		.attr('stroke', 'silver')
-		.attr('stroke-width', 0.05)
-		.attr('fill', 'none')
+		.attr('stroke-width', 0.2)
+		//monkey it out
+		.attr('fill', 'rgba(10, 150, 20, 0)')
 		.on("mouseover", function(){
-			d3.select(this).style("stroke", 'white').style("stroke-width", "0.2");
+			d3.select(this).style("stroke", 'white').style("stroke-width", "0.4");
 		})
 		.on("mouseout", function(){	
 			//default values
-			d3.select(this).style("stroke", 'silver').style("stroke-width", "0.05");
+			d3.select(this).style("stroke", 'silver').style("stroke-width", "0.2");
 		})
 		
 		//set _tooltip options
@@ -405,8 +410,7 @@ IG.util.drawPaths = function(currentState) {
 		.attr("data-html", "true")
 		.attr("title", function(){
 				var htmlOutput = "<h6>Hallo! Mein Name ist " + this.getAttribute("name") + "." +
-				" Ich habe "  + this.getAttribute("duration") + " gedauert. Ich komme aus " + 
-				this.getAttribute("country") + "!</h6>";
+				"  Ich komme aus " + this.getAttribute("country") + "!</h6>";
 			return htmlOutput;
 		});
 		
@@ -487,7 +491,7 @@ IG.util.drawPaths = function(currentState) {
 	
 	$("[rel=tooltip]").tooltip({
 		'container' : 'body',
-		'placement' : 'top'
+		'placement' : 'right'
 	});
 
 	IG.util.createHover('path');
@@ -505,8 +509,6 @@ $(document).ready(function() {
 		'container' : 'body',
 		'placement' : 'top'
 	});
-
-	IG.util.createHover('circle');
 	IG.util.createHover('image');
 });
 
@@ -514,12 +516,12 @@ $(document).ready(function() {
 
 $("#slider").dateRangeSlider({
 	bounds : {
-		min : new Date(1912, 0, 1),
-		max : new Date(2052, 11, 31)
+		min : new Date(1950, 0, 1),
+		max : new Date(2020, 11, 31)
 	},
 	defaultValues : {
 		min : new Date(1960, 1, 10),
-		max : new Date(2012, 4, 22)
+		max : new Date(2013, 4, 22)
 
 	},
 
