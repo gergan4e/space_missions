@@ -61,13 +61,13 @@ IG.flags = {
 	}
 };
 
-IG.flags.appendFlag('EU', 1000, 0, "<h6>Europäische Weltraumorganisation (ESA)</h6>");
-IG.flags.appendFlag('UdSSR', 1035, 50, "<h6>Sowjetunion</h6>");
-IG.flags.appendFlag('Russland', 1100, 0, "<h6>Russland (ab 1992)</h6>");
-IG.flags.appendFlag('USA', 1135, 50, "<h6>Vereinigte Staaten</h6>");
-IG.flags.appendFlag('China', 1200, 0, "<h6>Volksrepublik China</h6>");
-IG.flags.appendFlag('Japan', 1235, 50, "<h6>Japan</h6>");
-IG.flags.appendFlag('Indien', 1300, 0, "<h6>Indien</h6>");
+IG.flags.appendFlag('EU', 750, 0, "<h5>Europäische Weltraumorganisation (ESA)</h5>");
+IG.flags.appendFlag('UdSSR', 785, 50, "<h5>Sowjetunion</h5>");
+IG.flags.appendFlag('Russland', 850, 0, "<h5>Russland (ab 1992)</h5>");
+IG.flags.appendFlag('USA', 885, 50, "<h5>Vereinigte Staaten</h5>");
+IG.flags.appendFlag('China', 950, 0, "<h5>Volksrepublik China</h5>");
+IG.flags.appendFlag('Japan', 985, 50, "<h5>Japan</h5>");
+IG.flags.appendFlag('Indien', 1050, 0, "<h5>Indien</h5>");
 
 IG.specials = {
 	addRecord : function(){
@@ -77,10 +77,10 @@ IG.specials = {
 			className = 'record',
 			folderName = 'specials',
 			x = '1450',
-			y ='100',
+			y ='0',
 			width = '40',
 			height = '40',
-			htmlTextAsComment = 'Rekord',
+			htmlTextAsComment = '<h5>Rekord</h5>',
 				
 		 parameters = {
 			imageName : imageName,
@@ -105,10 +105,10 @@ IG.specials = {
 			className = 'tourist',
 			folderName = 'specials',
 			x = '1450',
-			y ='150',
+			y ='50',
 			width = '40',
 			height = '40',
-			htmlTextAsComment = 'Weltraumtourist',
+			htmlTextAsComment = '<h5>Weltraumtourist</h5>',
 				
 		 parameters = {
 			imageName : imageName,
@@ -133,10 +133,10 @@ IG.specials = {
 			className = 'falseStart',
 			folderName = 'specials',
 			x = '1450',
-			y ='200',
+			y ='100',
 			width = '40',
 			height = '40',
-			htmlTextAsComment = 'Fehlstart',
+			htmlTextAsComment = '<h5>Fehlstart</h5>',
 				
 		 parameters = {
 			imageName : imageName,
@@ -161,10 +161,10 @@ IG.specials = {
 			className = 'death',
 			folderName = 'specials',
 			x = '1450',
-			y ='250',
+			y ='150',
 			width = '40',
 			height = '40',
-			htmlTextAsComment = 'Tödliches Unglück',
+			htmlTextAsComment = '<h5>Tödliches Unglück</h5>',
 				
 		 parameters = {
 			imageName : imageName,
@@ -188,11 +188,11 @@ IG.specials = {
 			suffix = '_SPECIAL.png',
 			className = 'manned',
 			folderName = 'specials',
-			x = '1450',
+			x = '1250',
 			y ='0',
 			width = '80',
 			height = '80',
-			htmlTextAsComment = 'Bemannt',
+			htmlTextAsComment = '<h5>Bemannt</h5>',
 				
 		 parameters = {
 			imageName : imageName,
@@ -216,11 +216,11 @@ IG.specials = {
 			suffix = '_SPECIAL.png',
 			className = 'unmanned',
 			folderName = 'specials',
-			x = '1400',
+			x = '1300',
 			y ='0',
 			width = '80',
 			height = '80',
-			htmlTextAsComment = 'Unbemannt',
+			htmlTextAsComment = '<h5>Unbemannt</h5>',
 				
 		 parameters = {
 			imageName : imageName,
@@ -393,24 +393,33 @@ IG.util.drawPaths = function(currentState) {
 		.attr('country', spaceMission.country)
 		.attr('start', spaceMission.start)
 		.attr('end', spaceMission.landing)
+		.attr('target', spaceMission.target)
+		.attr('result', spaceMission.result)
+		.attr('people', spaceMission.people)
+		.attr('comment', spaceMission.comment)
 		.attr('stroke', 'silver')
-		.attr('stroke-width', 0.2)
+		.attr('stroke-width', 0.3)
 		//monkey it out
 		.attr('fill', 'rgba(10, 150, 20, 0)')
 		.on("mouseover", function(){
-			d3.select(this).style("stroke", 'white').style("stroke-width", "0.4");
+			d3.select(this).style("stroke", 'white').style("stroke-width", "0.5");
 		})
 		.on("mouseout", function(){	
 			//default values
-			d3.select(this).style("stroke", 'silver').style("stroke-width", "0.2");
+			d3.select(this).style("stroke", 'silver').style("stroke-width", "0.3");
 		})
 		
 		//set _tooltip options
 		.attr("rel","tooltip")
 		.attr("data-html", "true")
 		.attr("title", function(){
-				var htmlOutput = "<h6>Hallo! Mein Name ist " + this.getAttribute("name") + "." +
-				"  Ich komme aus " + this.getAttribute("country") + "!</h6>";
+				var htmlOutput = "<h5><b>Mission: </b>" + this.getAttribute("name") + "<br>" +
+				"<b>Start: </b>" + this.getAttribute("start") + "<br>" + 
+				"<b>Ende: </b>" + this.getAttribute("end") + "<br>" + 
+				"<b>Zielobjekt: </b>" + this.getAttribute("target") + "<br>" + 
+				"<b>Ergebnis: </b>" + this.getAttribute("result") + "<br>" +
+				"<b>Astronauten: </b>" + this.getAttribute("people") + "<br>" + "<hr size=1>" +
+				this.getAttribute("comment") + "<br>" + "<h5>";
 			return htmlOutput;
 		});
 		
