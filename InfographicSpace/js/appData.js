@@ -11,13 +11,15 @@
  */
 
 var IG = {};
+
 // define a SVG container - the place where the SVG are drawn
-IG.svgContainer = d3.select('body')
-					// correct _namespace definition
-					.append('svg:svg')
-					.attr('width', '100%')
-					.attr('height', '100%')
-					.attr('viewBox', '0 57 1600 600');
+
+	IG.svgContainer = d3.select('body')
+	// correct _namespace definition
+	.append('svg:svg').attr('width', '100%').attr('height', '100%')
+	// frame that enables scaling
+	.attr('viewBox', '0 0 1600 600'); 
+
 
 IG.util = {};
 
