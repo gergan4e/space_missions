@@ -556,10 +556,10 @@ IG.util.drawPaths = function(currentState) {
                         && state.minDate <= IG.util.parseYear(common[commonObj].start)
                         && state.maxDate >= IG.util.parseYear(common[commonObj].start)) {
                                 addPath(common[commonObj]);
-                        } else if (currentState.name === common[commonObj].mission 
+                        } else if (state.name === common[commonObj].mission 
                         && state.minDate <= IG.util.parseYear(common[commonObj].start)
                         && state.maxDate >= IG.util.parseYear(common[commonObj].start)){
-                                addPath(commonObj);
+                                addPath(common[commonObj]);
                         }
 			}
 		}
