@@ -10,9 +10,9 @@
 /**
  * Application initialization
  */
-
-/*global $, console, d3*/
-
+/*jslint nomen: true*/
+/*global $, console, d3, jLinq, _*/
+/*jslint nomen: false*/
 // define application width (SVG)
 IG.width = window.innerWidth;
 
@@ -425,78 +425,149 @@ IG.util.drawPaths = function(currentState) {
 		
 		
 	}
-	// Don't ask me. See the function below.
-	function drawer(){
-						//check whether the specials are not activated
-				activated = currentState.isFalseStart === 'true'||
-							currentState.isTourist === 'true' ||
-							currentState.isLethal === 'true' ||
-							currentState.isManned === 'true'||
-							currentState.isUnmanned === 'true' ||
-							currentState.isRecord === 'true';
-				
-				
-					//IF TRUE => Draw all paths!
-					if (!activated) {
-						addPath(currentObj);
-						//IF FALSE
+	
+
+	function specialsDeliverer() {
+		var specialsArray, specialAndCounter, state, specials, obj,  output, isVirgin;
+		isVirgin = true;
+		state = IG.util.getCurrentView();
+		specialsArray = [{
+			name : "falseStart",
+			clicked : state.isFalseStart
+		}, {
+			name : "death",
+			clicked : state.isLethal
+		}, {
+			name : "records",
+			clicked : state.isRecord
+		}, {
+			name : "spaceTourist",
+			clicked : state.isTourist
+		}];
+
+		specials = jLinq.from(IG.data.missions);
+		specialAndCounter = 0;
+		for (obj in specialsArray) {
+			if (specialsArray.hasOwnProperty(obj)) {
+				if (specialsArray[obj].clicked === "true") {
+					isVirgin = false;
+					if (specialAndCounter === 0) {
+						specials.starts(specialsArray[obj].name, specialsArray[obj].clicked);
 					} else {
-						//Determine whether manned or/and unmanned are pressed (whole configuration)
-						
-						//IF manned and unmanned
-						//check the other four specials
-						if (currentState.isManned === 'true' 
-							&& currentState.isUnmanned === 'true') {
-								
-							if (currentObj.falseStart === currentState.isFalseStart && 
-								currentObj.spaceTourist === currentState.isTourist && 
-								currentObj.death === currentState.isLethal && 
-								currentObj.records === currentState.isRecord) {
-								addPath(currentObj);
-							}
-						//ELSE check all of the specials twice. Once for manned and once for unmanned.
-						} else {
-							
-							// MANNED
-							if(currentObj.falseStart === currentState.isFalseStart
-								&& currentObj.spaceTourist === currentState.isTourist
-								&& currentObj.death === currentState.isLethal
-								&& currentObj.manned === currentState.isManned
-								&& currentObj.records === currentState.isRecord){
-									addPath(currentObj);
-							} else if (currentObj.falseStart === currentState.isFalseStart
-								&& currentObj.spaceTourist === currentState.isTourist
-								&& currentObj.death === currentState.isLethal
-								&& currentObj.manned === currentState.isunmanned
-								&& currentObj.records === currentState.isRecord){
-									addPath(currentObj);
-							}	
-						}
+						specials.and().starts(specialsArray[obj].name, specialsArray[obj].clicked);
 					}
-		}
-	
-	
-	for (obj in IG.data.missions) {
-
-		if (IG.data.missions.hasOwnProperty(obj)) {
-
-			currentObj = IG.data.missions[obj];
-			
-			// whether the input box is empty
-			if (currentState.name === '' 
-			&& $.inArray(currentObj.country, currentState.countries) !== -1
-			&& currentState.minDate <= IG.util.parseYear(currentObj.start)
-			&& currentState.maxDate >= IG.util.parseYear(currentObj.start)) {
-				drawer();
-			} else if (currentState.name === currentObj.mission 
-			&& $.inArray(currentObj.country, currentState.countries) !== -1
-			&& currentState.minDate <= IG.util.parseYear(currentObj.start)
-			&& currentState.maxDate >= IG.util.parseYear(currentObj.start)){
-				drawer();
+					specialAndCounter = specialAndCounter + 1;
+				}
 			}
 		}
 
+				
+				
+		if (isVirgin){
+			output = "empty";
+		} else {
+			output = specials = specials.select();
+		}
+		
+
+		return output;
 	}
+
+	
+	function countryDeliverer(){
+		var state, i, countries, isVirgin, output;
+		state = IG.util.getCurrentView();
+		isVirgin = true;
+		countries = jLinq.from(IG.data.missions);
+		
+		for(i = 0; i < state.countries.length; i = i + 1){
+			isVirgin = false;
+			if (i === 0){
+				countries.starts("country", state.countries[i]);
+			} else {
+				countries.or().starts("country", state.countries[i]);
+			}
+		}
+		
+		if (isVirgin){
+			output = "empty";
+		} else {
+			output = countries.select();
+		}
+		
+		return output;
+	}
+	
+	
+	function drawer(){	
+		var specials, countries, manned, name, time,
+		state, specialsArray, specialAndCounter, common, commonObj, mannedChecked,
+		intersectionCand;
+		
+		state = IG.util.getCurrentView();
+		specials = specialsDeliverer();					
+		countries = countryDeliverer();		
+	
+			
+		manned = jLinq.from(IG.data.missions);
+		mannedChecked = false;
+		if (state.isUnmanned === "true"){
+			mannedChecked = true;
+			manned.starts("manned", "false");
+		}
+		if (state.isManned === "true" && state.isUnmanned === "true"){
+			mannedChecked = true;
+			manned.or().starts("manned", "true");
+		} else if (state.isManned === "true"){
+			mannedChecked = true;
+			manned.starts("manned", "true");
+		}
+		
+		if (mannedChecked){
+			manned = manned.select();
+		} else {
+			manned = "empty";
+		}
+		
+		intersectionCand = [];
+		
+		if (manned !== "empty"){
+			intersectionCand.push(manned);
+		}
+		
+		if (specials !== "empty"){
+			intersectionCand.push(specials);
+		}
+		
+		if(countries !== "empty") {
+			intersectionCand.push(countries);
+		}
+		
+		
+		/*jslint nomen: true*/
+		common = _.intersection.apply(_, intersectionCand);
+		/*jslint nomen: false*/
+		
+		
+		for (commonObj in common) {
+			if(common.hasOwnProperty(commonObj)){
+				      // whether the input box is empty
+						if (state.name === '' 
+                        && state.minDate <= IG.util.parseYear(common[commonObj].start)
+                        && state.maxDate >= IG.util.parseYear(common[commonObj].start)) {
+                                addPath(common[commonObj]);
+                        } else if (currentState.name === common[commonObj].mission 
+                        && state.minDate <= IG.util.parseYear(common[commonObj].start)
+                        && state.maxDate >= IG.util.parseYear(common[commonObj].start)){
+                                addPath(commonObj);
+                        }
+			}
+		}
+		
+	
+	}
+	
+	drawer();
 	
 	$("[rel=tooltip]").tooltip({
 		'container' : 'body',
